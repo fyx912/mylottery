@@ -1,0 +1,44 @@
+allprojects {
+    group 'com.yys'
+    version '1.0'
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'war'
+    apply plugin: 'java'
+//    apply plugin: 'org.springframework.boot'
+//    apply plugin: 'io.spring.dependency-management'
+    sourceCompatibility = 1.8
+}
+
+
+subprojects {
+    ext{
+        springBootVersion = "2.0.1.RELEASE"
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "http://central.maven.org/maven2/" }
+        mavenCentral()
+    }
+    dependencies {
+        compile(
+                "org.springframework.boot:spring-boot-starter:${springBootVersion}",
+                "org.springframework.boot:spring-boot-starter-test:${springBootVersion}",
+                "org.springframework.boot:spring-boot-starter-logging:${springBootVersion}",
+                "org.springframework.boot:spring-boot-devtools:${springBootVersion}",
+                "org.springframework.boot:spring-boot-starter-web:${springBootVersion}",
+
+                "commons-lang:commons-lang:2.6",
+                "com.alibaba:fastjson:1.2.47"
+        )
+        providedRuntime (
+                "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"
+        )
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
+}
+

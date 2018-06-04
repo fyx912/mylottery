@@ -1,0 +1,5 @@
+rootProject.name = 'lottery'
+include 'api'
+include 'task'
+include 'core'
+
