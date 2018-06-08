@@ -1,10 +1,7 @@
 package com.yys.lottery.core.dao.mapper;
 
 import com.yys.lottery.core.domain.LotteryList;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -23,4 +20,7 @@ public interface LotteryListMapper {
     })
     @Select("select * from t_lottery_list")
     List<LotteryList> getAll();
+
+    @Select("select lottery_id from t_lottery_list where lottery_id=${lotteryType}")
+    String findType(@Param("lotteryType")String lotteryType);
 }

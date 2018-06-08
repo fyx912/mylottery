@@ -34,7 +34,7 @@ public class LotteryHFService {
 
     /**
      * 判断彩票期号是否存在
-     * @param lottery  (彩种，期号)
+     * @param lotteryType  (彩种，期号)
      * @return
      */
     public boolean existsLotteryNo(String lotteryType ,String lotteryNo){
@@ -48,8 +48,11 @@ public class LotteryHFService {
         return flag;
     }
 
-    public List<LotteryHF>  findAll(String lotteryType){
-      return sscMapper.findAll(lotteryType);
+    public List<LotteryHF>  findAll(String lotteryType,int page,int pageSize){
+        if (0>pageSize&&pageSize>100){
+            pageSize = 30;
+        }
+      return sscMapper.findAll(lotteryType,page,pageSize);
     }
 
     /**

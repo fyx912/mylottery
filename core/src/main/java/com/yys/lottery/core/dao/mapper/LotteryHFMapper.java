@@ -40,8 +40,8 @@ public interface LotteryHFMapper {
     @Select("select * FROM t_lottery_hf_${lotteryType} where lotteryNo='${lotteryNo}'")
     LotteryHF findOneObject(@Param("lotteryType") String lotteryType, @Param("lotteryNo") String lotteryNo);
 
-    @Select("select * FROM t_lottery_hf_${lotteryType}")
-    List<LotteryHF> findAll(@Param("lotteryType") String lotteryType);
+    @Select("select * FROM t_lottery_hf_${lotteryType}  order by lotteryNo desc limit ${page},${pageSize}")
+    List<LotteryHF> findAll(@Param("lotteryType") String lotteryType,@Param("page") int page,@Param("pageSize") int pageSize);
 
     @Select("select lotteryNo,resultNum FROM t_lottery_hf_${lotteryType} order by lotteryNo desc limit ${page},${pageSize}")
     List<LotteryHF> findHistoryLotteryNoAndResultData(@Param("lotteryType") String lotteryType,@Param("page") int page,@Param("pageSize") int pageSize);

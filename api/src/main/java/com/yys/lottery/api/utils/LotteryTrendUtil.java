@@ -29,23 +29,26 @@ public class LotteryTrendUtil {
         return sum;
     }
 
+    /**
+     * 出现总次数
+     * @return
+     */
+    public static Integer countOmitValue(List<Integer> list){
+        Integer count = 0;
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i)==list.get(i-1)){
+                count ++;
+            }
+        }
+        return  count;
+    }
 
     /**
      * 最大遗漏值
      */
     public static Integer maxOmitValue(List<Integer> list){
-        Integer sum=0;
-        if (list.size()>0){
-            List<Integer> sumList = new ArrayList<>();
-            for (int i = 0; i < list.size()-1; i++) {
-                sumList.add(list.get(i+1)-list.get(i));
-            }
-            if(sumList.size()>0)
-                sum = Collections.max(sumList);
-        }
-        return sum;
+        return  Collections.max(list);
     }
-
 
     /**
      *平均遗漏值
@@ -56,8 +59,7 @@ public class LotteryTrendUtil {
             int total = 0;
             List<Integer> sumList = new ArrayList<>();
             for (int i = 0; i < list.size()-1; i++) {
-                total += list.get(i+1)-list.get(i);
-
+                total += list.get(i);
             }
             sum = total/list.size();
         }

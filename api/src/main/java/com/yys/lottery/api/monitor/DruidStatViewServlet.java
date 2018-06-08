@@ -1,4 +1,4 @@
-package com.yys.lottery.montitor;
+package com.yys.lottery.api.monitor;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 

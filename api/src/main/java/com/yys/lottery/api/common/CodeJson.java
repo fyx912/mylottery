@@ -24,10 +24,17 @@ public class CodeJson {
         return jsonObject;
     }
 
+    public static String error(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",1);
+        jsonObject.put("msg","filed!");
+        return  jsonObject.toString();
+    }
+
     public static String error(int errorCode,String filed){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code",errorCode);
-        jsonObject.put("msg",filed);
+        jsonObject.put("msg","Filed! because:"+filed);
         return  jsonObject.toString();
     }
 }

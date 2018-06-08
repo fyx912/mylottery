@@ -28,10 +28,8 @@ subprojects {
                 "org.springframework.boot:spring-boot-starter:${springBootVersion}",
                 "org.springframework.boot:spring-boot-starter-test:${springBootVersion}",
                 "org.springframework.boot:spring-boot-starter-logging:${springBootVersion}",
-                "org.springframework.boot:spring-boot-devtools:${springBootVersion}",
                 "org.springframework.boot:spring-boot-starter-web:${springBootVersion}",
 //                "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}",
-
                 "commons-lang:commons-lang:2.6",
                 "com.alibaba:fastjson:1.2.47",
 
@@ -42,8 +40,10 @@ subprojects {
 
 //        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.8.0-alpha0'
 
+
         providedRuntime (
                 "org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}",
+                "org.springframework.boot:spring-boot-devtools:${springBootVersion}",
                 "org.projectlombok:lombok:1.16.22"
         )
         testCompile group: 'junit', name: 'junit', version: '4.12'

@@ -64,4 +64,25 @@ public enum LotteryTypeEnums {
         }
         return null;
     }
+
+    public static  LotteryTypeEnums  getByDescr(String name){
+        LotteryTypeEnums[] array = LotteryTypeEnums.values();
+        for (LotteryTypeEnums enums :array){
+            if (enums.getName()==name){
+                return enums;
+            }
+        }
+        return null;
+    }
+
+    public static boolean exists(String name){
+        LotteryTypeEnums[] array = LotteryTypeEnums.values();
+        name = name.toUpperCase();
+        for (LotteryTypeEnums enums :array){
+            if (enums.getName().endsWith(name)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

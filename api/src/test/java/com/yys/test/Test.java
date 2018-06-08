@@ -3,8 +3,10 @@ package com.yys.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yys.lottery.api.LotteryApiMain;
+import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.service.LotteryHFApiService;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
+import com.yys.lottery.core.common.LotteryTypeEnums;
 import com.yys.lottery.core.domain.LotteryHF;
 import com.yys.lottery.core.domain.LotteryList;
 import com.yys.lottery.core.services.LotteryHFService;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,14 +38,14 @@ public class Test {
     private LotteryHFApiService hfApiService;
 
     @org.junit.Test
-    public void getLotterList(){
+    public void getLotteryList(){
        List<LotteryList> lists =  lotteryListService.getAll();
        System.out.println("lottery list :" + JSONObject.toJSON(lists));
     }
 
     @org.junit.Test
     public void getLotteryHFAll(){
-       List<LotteryHF>  hfList= hfService.findAll("bjpk10");
+       List<LotteryHF>  hfList= hfService.findAll("bjpk10",0,10);
         System.out.println("lottery list :" + JSONObject.toJSON(hfList));
     }
 
@@ -78,13 +81,29 @@ public class Test {
             Integer omitValue = LotteryTrendUtil.maxOmitValue(list);
             maxList.add(omitValue);
         }
-        System.out.println(JSONObject.toJSON(maxList));
+        System.out.println("max =="+JSONObject.toJSON(maxList));
 //        System.out.println("result = "+ JSONObject.toJSON(maxList));
     }
 
-    public Integer maxOmitValue(List list){
-        LotteryTrendUtil.maxOmitValue(list);
-        return   LotteryTrendUtil.maxOmitValue(list);
+    @org.junit.Test
+    public void lotteryTrendView(){
+        String lotteryType = "cqssc";
+        LotteryTrend trend = hfApiService.lotteryBaseTrend(lotteryType,0,0,10);
+        System.out.println(JSONObject.toJSON(trend));
+    }
+
+    public static Integer maxOmitValue(List<Integer> list){
+        Integer sum=0;
+        if (list.size()>0){
+            List<Integer> sumList = new ArrayList<>();
+            for (int i = 0; i < list.size()-1; i++) {
+                sumList.add(list.get(i+1)-list.get(i));
+            }
+            System.out.println(JSONObject.toJSON(sumList));
+            if(sumList.size()>0)
+                sum = Collections.max(sumList);
+        }
+        return sum;
     }
 
 
@@ -101,6 +120,7 @@ public class Test {
     }
 
     public static  void main (String[] args){
+        System.out.println(LotteryTypeEnums.getByDescr("cqssc"));
         String resultNum = "1,9,2,7,8";
         String result = resultNum.substring(0,1);
         System.out.println(result);

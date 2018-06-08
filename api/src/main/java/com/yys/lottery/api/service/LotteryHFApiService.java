@@ -1,6 +1,7 @@
 package com.yys.lottery.api.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
 import com.yys.lottery.core.common.LotteryTypeEnums;
 import com.yys.lottery.core.domain.LotteryHF;
@@ -17,17 +18,51 @@ public class LotteryHFApiService {
     @Autowired
     private LotteryHFTrendService trendService;
 
+    /**
+     * 计算遗漏数据
+     * @param lotteryType
+     * @param index
+     * @param page
+     * @param pageSize
+     * @return
+     */
     public List<LotteryHF> lotteryTrendData(String lotteryType,int index,int page,int pageSize){
       List<LotteryHF>  hfList = trendService.getTrendData(lotteryType,page,pageSize);
       List<LotteryHF>  trendList = trendDataDispose(lotteryType,index,hfList);
       return trendList;
     }
 
-
-    public Integer[] maxOmitValue(List list){
-        Integer[] ommit = new Integer[10];
-        LotteryTrendUtil.maxOmitValue(list);
-        return  ommit;
+    public LotteryTrend  lotteryBaseTrend(String lotteryType,int index,int page,int pageSize){
+        List<LotteryHF> hfList = lotteryTrendData(lotteryType,index,page,pageSize);
+        List<Integer> maxList = new ArrayList<>();
+        List<Integer> avgList = new ArrayList<>();
+        List<Integer> countList = new ArrayList<>();
+        List<Integer> maxContinuousList = new ArrayList<>();
+        LotteryTrend trend = new LotteryTrend();
+        int resultSize = 10;
+        for (int j = 0; j < resultSize; j++) {
+            Integer[] resultArray = new Integer[resultSize];
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i <  hfList.size(); i++) {
+                Integer[] result = hfList.get(i).getResult();
+                list.add(result[j]);
+            }
+            System.out.println(JSONObject.toJSON(list));
+            Integer omitValue = LotteryTrendUtil.maxOmitValue(list);
+            maxList.add(omitValue);
+            Integer avgValue = LotteryTrendUtil.averageOmitValue(list);
+            avgList.add(avgValue);
+            Integer countValue = LotteryTrendUtil.averageOmitValue(list);
+            countList.add(countValue);
+            Integer  maxContinuousValue = LotteryTrendUtil.averageOmitValue(list);
+            maxContinuousList.add(maxContinuousValue);
+        }
+        trend.setLotteryHF(hfList);
+        trend.setMaxOmit(maxList);
+        trend.setAvgOmit(avgList);
+        trend.setCountOmit(countList);
+        trend.setMaxContinuous(maxContinuousList);
+        return trend;
     }
 
     /**
@@ -49,12 +84,14 @@ public class LotteryHFApiService {
                 String num = hfList.get(i).getResultNum();
                 hfLottery.setResultNum(num);
                 String[] result = num.split(",");
+                int resultSize = 10;
                 Integer indexData = Integer.valueOf(result[index]);
+                hfLottery.setSum(indexData.toString());
                 if(i==0){
-                    hfLottery.setResult(initOmitData(indexData));
+                    hfLottery.setResult(initOmitData(indexData,resultSize));
                 }else {
                     Integer[] resultValues = resultList.get(i-1).getResult();
-                    Integer[] data = new Integer[10];
+                    Integer[] data = new Integer[resultSize];
                     for (int j = 0; j < resultValues.length; j++) {
                         if (j==indexData){
                             data[j] = indexData;
@@ -75,26 +112,14 @@ public class LotteryHFApiService {
         return null;
     }
 
-    public Integer[] countOmitData(Integer[] values ,int data){
-        Integer[] result = new Integer[10];
-        for (int i = 0; i < 10 ; i++) {
-            if (i == data){
-                result[i] = data;
-            }else {
-                result[i] = values[i]++;
-            }
-        }
-        return  result;
-    }
-
     /**
      * 初始化遗漏值数据
      * @param data
      * @return
      */
-    public Integer[] initOmitData(int data){
-        Integer[] sum= new Integer[10];
-        for (int i = 0; i <10 ; i++) {
+    public Integer[] initOmitData(int data,int index){
+        Integer[] sum= new Integer[index];
+        for (int i = 0; i <index ; i++) {
             if (i == data){
                 sum[i] = data;
             }else {
