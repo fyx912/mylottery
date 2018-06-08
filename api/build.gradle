@@ -12,9 +12,17 @@ repositories {
     mavenCentral()
 }
 
+ext{
+    springfox="2.8.0"
+}
+
 dependencies {
-//    compile(
+    compile(
+            project(":core"),
 //            "javax.servlet:javax.servlet-api:3.0.1"
-//    )
+            "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}",
+            "io.springfox:springfox-swagger2:${springfox}",
+            "io.springfox:springfox-swagger-ui:${springfox}"
+    )
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

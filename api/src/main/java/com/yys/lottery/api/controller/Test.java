@@ -1,13 +1,16 @@
 package com.yys.lottery.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 public class Test {
 
+    @ApiOperation(value = "测试",notes = "测试")
     @RequestMapping("/")
     public String index(){
         JSONObject jsonObject = new JSONObject();
@@ -17,7 +20,8 @@ public class Test {
         return jsonObject.toString();
     }
 
-    @RequestMapping("/test")
+    @ApiOperation(value = "测试",notes = "测试")
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String test(){
         return "test";
     }
