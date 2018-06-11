@@ -19,7 +19,7 @@ public class LotteryHFTrendService {
         if (StringUtils.isEmpty(lotteryType)){
             lotteryType = LotteryTypeEnums.HF_CQSSC.getName();
         }
-        if (pageSize!=30||pageSize!=50||pageSize!=100){
+        if (0>pageSize||page>100){
             pageSize = 30;
         }
         return trendMapper.findTrendData(lotteryType,page,pageSize);

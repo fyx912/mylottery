@@ -38,7 +38,11 @@ public class WebAspect {
         logger.info("OS:\t"+System.getProperty("os.name"));
         logger.info("IP:\t"+request.getRemoteAddr()+"\t port:"+request.getServerPort());
         logger.info("URL:\t"+request.getRequestURI());
-        logger.info("Request Language : "+request.getContentType());
+        logger.info("Request Language : "+request.getHeader("Accept-Language"));
+        logger.info(String.format("Request Heads : Accept: %s,Accept-Language: %s,Origin: %s",request.getHeader("Accept"),
+                request.getHeader("Accept-Language"),request.getHeader("Origin")));
+        logger.info("Request Heads : Referer: {} ",request.getHeader("Referer"));
+        logger.info(String.format("Request Heads : User-Agent: %s ",request.getHeader("User-Agent")));
         logger.info("HTTP_METHOD: "+request.getMethod());
         logger.info("Cookies: "+request.getCookies());
         logger.info("Class_Method: "+joinPoint.getSignature().getDeclaringTypeName()+"."+joinPoint.getSignature().getName());

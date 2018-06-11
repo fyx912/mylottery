@@ -8,6 +8,7 @@ import com.yys.lottery.core.domain.LotteryHF;
 import com.yys.lottery.core.services.LotteryHFTrendService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class LotteryHFApiService {
       return trendList;
     }
 
+    @Cacheable("LotteryHFApiService.lotteryBaseTrend")
     public LotteryTrend  lotteryBaseTrend(String lotteryType,int index,int page,int pageSize){
         List<LotteryHF> hfList = lotteryTrendData(lotteryType,index,page,pageSize);
         List<Integer> maxList = new ArrayList<>();
@@ -41,22 +43,28 @@ public class LotteryHFApiService {
         LotteryTrend trend = new LotteryTrend();
         int resultSize = 10;
         for (int j = 0; j < resultSize; j++) {
-            Integer[] resultArray = new Integer[resultSize];
+//            Integer[] resultArray = new Integer[resultSize];
             List<Integer> list = new ArrayList<>();
+//            List<LotteryHF> hfListValue = new ArrayList<>();
             for (int i = 0; i <  hfList.size(); i++) {
                 Integer[] result = hfList.get(i).getResult();
+                LotteryHF lotteryHF = hfList.get(i);
+                lotteryHF.setResult(result);
                 list.add(result[j]);
             }
-            System.out.println(JSONObject.toJSON(list));
-            Integer omitValue = LotteryTrendUtil.maxOmitValue(list);
-            maxList.add(omitValue);
+            System.out.println("list :"+JSONObject.toJSON(list));
+            Integer maxOmitValue = LotteryTrendUtil.maxOmitValue(list);
+            maxList.add(maxOmitValue);
             Integer avgValue = LotteryTrendUtil.averageOmitValue(list);
             avgList.add(avgValue);
-            Integer countValue = LotteryTrendUtil.averageOmitValue(list);
-            countList.add(countValue);
-            Integer  maxContinuousValue = LotteryTrendUtil.averageOmitValue(list);
+            Integer  maxContinuousValue = LotteryTrendUtil.maxContinuousValue(list);
             maxContinuousList.add(maxContinuousValue);
+
+            Integer countValue = LotteryTrendUtil.countOmitValue(list);
+            countList.add(countValue);
         }
+
+
         trend.setLotteryHF(hfList);
         trend.setMaxOmit(maxList);
         trend.setAvgOmit(avgList);
@@ -91,15 +99,20 @@ public class LotteryHFApiService {
                     hfLottery.setResult(initOmitData(indexData,resultSize));
                 }else {
                     Integer[] resultValues = resultList.get(i-1).getResult();
+                    Integer lastValue = Integer.valueOf(resultList.get(i-1).getSum());
                     Integer[] data = new Integer[resultSize];
                     for (int j = 0; j < resultValues.length; j++) {
                         if (j==indexData){
                             data[j] = indexData;
                         }else {
-                            if (j == resultValues[j]){
-                                data[j] = 1;
+                            if (j == indexData){
+                                data[j] = indexData;
                             }else {
-                                data[j] = resultValues[j]+1;
+                                if (j==lastValue&&lastValue == resultValues[j]){
+                                    data[j] = 1;
+                                }else {
+                                    data[j] = resultValues[j]+1;
+                                }
                             }
                         }
                     }

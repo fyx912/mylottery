@@ -36,7 +36,7 @@ public class LotteryTrendUtil {
     public static Integer countOmitValue(List<Integer> list){
         Integer count = 0;
         for (int i = 1; i < list.size(); i++) {
-            if (list.get(i)==list.get(i-1)){
+            if (i==list.get(i)){
                 count ++;
             }
         }
@@ -57,11 +57,19 @@ public class LotteryTrendUtil {
         Integer sum=0;
         if (list.size()>0){
             int total = 0;
-            List<Integer> sumList = new ArrayList<>();
-            for (int i = 0; i < list.size()-1; i++) {
-                total += list.get(i);
+//            boolean falg = false;
+            for (int i = 1; i < list.size(); i++) {
+                if (list.get(i)<list.get(i-1)){
+                    total += list.get(i-1);
+//                    falg = true;
+                }
             }
-            sum = total/list.size();
+//            if (falg==true){
+//                total += list.get(list.size()-1);
+//            }
+            sum = (int) Math.sqrt(total);
+            System.out.println("total = "+total+",avg = "+sum);
+//            sum = total/list.size();
         }
         return sum;
     }

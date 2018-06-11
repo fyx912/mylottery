@@ -46,13 +46,15 @@ public class LotteryHFController {
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
     })
     @Cacheable(value = "lottery.hf.trend")
-    @RequestMapping(value = "trend",produces = "application/json;charset=UTF-8 ")
-    public String trendView(String type, @RequestParam(defaultValue = "0") int index,
+    @RequestMapping(value = "trend",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8 ")
+    public String trendView(@RequestParam String type, @RequestParam(defaultValue = "0") int index,
                             @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "30") int pageSize){
         if (StringUtils.isEmpty(type)){
             type = LotteryTypeEnums.HF_CQSSC.getName();
         }
-        page = pageSize *(page-1);
+        if (page>0){
+            page = pageSize *(page-1);
+        }
         LotteryTrend trend = apiService.lotteryBaseTrend(type,index,page,pageSize);
         JSONObject json = CodeJson.successJsonObject(trend);
         json.put("type",type);
@@ -74,7 +76,7 @@ public class LotteryHFController {
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
     })
     @Cacheable(value = "lottery.hf.list")
-    @RequestMapping(value = "list/{type}",method = RequestMethod.GET,produces = "application/json;charset=UTF-8 ")
+    @RequestMapping(value = "list/{type}",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8 ")
     public String getLotteryData(@PathVariable String type, @RequestParam(defaultValue = "1") int page,
                                  @RequestParam(defaultValue = "30") int pageSize){
         boolean flag =typeService.typeExists(type);

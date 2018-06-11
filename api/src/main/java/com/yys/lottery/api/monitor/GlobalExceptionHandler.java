@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-
-@ControllerAdvice
-@ResponseBody
+//
+//@ControllerAdvice
+//@ResponseBody
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value=Exception.class)
+//    @ExceptionHandler(value=Exception.class)
     public String allExceptionHandler(HttpServletRequest request,Exception e){
         return  null;
     }

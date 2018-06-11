@@ -90,6 +90,10 @@ public class Test {
         String lotteryType = "cqssc";
         LotteryTrend trend = hfApiService.lotteryBaseTrend(lotteryType,0,0,10);
         System.out.println(JSONObject.toJSON(trend));
+       List<LotteryHF> hfList = trend.getLotteryHF();
+        for (LotteryHF hf:hfList) {
+            System.out.println(JSONObject.toJSON(hf.getResult()));
+        }
     }
 
     public static Integer maxOmitValue(List<Integer> list){
@@ -126,41 +130,8 @@ public class Test {
         System.out.println(result);
         System.out.println(resultNum.substring(2,3)+"\t"+resultNum.substring(8,9));
 
-        String pk = "02,03,06,09,01,07,08,05,04,10";
-        System.out.println(pk.substring(0,2)+"\t"+pk.substring(3,5));
-        String[] pks = pk.split(",");
-        System.out.println(JSONObject.toJSON(pks));
-        int[]  values = new Test().getInitOmitData(5);
-        System.out.println(JSONObject.toJSON(values));
-
-        Integer[] res = {1,1,1,1,1,1,1,1,1,9};
-        Integer[] data = {5,8,4,9,3};
-        int sum = 5;
-        List<Integer[]> list = new ArrayList<>();
-        list.add(res);
-        Integer[] resultValues = null;
-        for (int i = 0; i <5 ; i++) {
-            resultValues =  new Integer[10];
-            Integer[] value = list.get(i);
-            for (int j = 0; j <10 ; j++) {
-                if (j==data[i]){
-                    resultValues[j]=data[i];
-                }else {
-                    int k = 0;
-                    if (j>0){
-                        k = j-1;
-                    }
-                    if (value[k]==j){
-                        resultValues[j] = 1;
-                    }else {
-                        resultValues[j] = value[j]++;
-                    }
-                }
-            }
-           list.add(resultValues);
-        }
-
-        System.out.println(JSONObject.toJSON(list));
+       System.out.println(Math.sqrt(25));
+       System.out.println(Math.round(4.47213595499958));
     }
 
 }

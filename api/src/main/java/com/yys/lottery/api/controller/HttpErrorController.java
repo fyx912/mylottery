@@ -12,13 +12,13 @@ public class HttpErrorController implements ErrorController {
 
     private static final String ERROR_PATH = "/error";
 
-    @RequestMapping(value = ERROR_PATH)
-    @ResponseBody
-    @ResponseStatus
-    public String handlerError(){
-        return  CodeJson.error(1,"请求的路径不存在!");
-    }
-
+//    @RequestMapping(value = ERROR_PATH)
+//    @ResponseBody
+//    @ResponseStatus
+//    public String handlerError(){
+//        return  CodeJson.error(1,"请求的路径不存在!");
+//    }
+//
     @Override
     public String getErrorPath() {
         return ERROR_PATH;
