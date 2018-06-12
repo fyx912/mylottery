@@ -1,75 +1,92 @@
 package com.yys.lottery.api.utils;
 
-import java.util.ArrayList;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author ding
+ * @Date 2018-06-12
+ * @desccibe 彩票视图开奖结果计算类
+ */
 public class LotteryTrendUtil {
 
     /**
-     * 最大连续值
+     * @describe 最大连续值
+     * @Param sumList 每一次的开奖结果
+     * @Param list 需要计算的遗漏值集合列
+     * @return Integer sum 计算的结果
      */
-    public static Integer maxContinuousValue(List<Integer> list){
-        Integer sum=1;
-        if (list.size()>0){
-            Integer continousValue=1;
-            List<Integer> sumList = new ArrayList<>();
-            for (int i = 0; i < list.size()-1; i++) {
-                if (list.get(i)+1==list.get(i+1)){
-                    continousValue ++;
+    public static Integer maxContinuousValue(List<Integer> sumList,List<Integer> list){
+        Integer sum=0;
+        System.out.println("max:"+JSONObject.toJSON(sumList));
+        if (list.size()>0&&sumList.size()>0){
+            for (int i = 0; i <sumList.size() ; i++) {
+                if (sum==0&&sumList.get(i)!=i){
+                    sum =1;
+                    break;
                 }
-                sumList.add(continousValue);
             }
-            if (sumList.size()>0){
-                sum = Collections.max(sumList);
+            for (int i = 0; i < list.size()-1; i++) {
+                if (list.get(i)==list.get(i+1)){
+                    if (sumList.get(i)==sumList.get(i+1)){
+                        sum ++;
+                    }
+                }
             }
-        }else {
-            sum =0;
         }
         return sum;
     }
 
     /**
-     * 出现总次数
+     * @describe 出现总次数
+     * @param sumList 开奖的结果集合
+     * @param index 开奖结果的索引
      * @return
      */
-    public static Integer countOmitValue(List<Integer> list){
+    public static Integer countOmitValue(List<Integer> sumList,int index){
         Integer count = 0;
-        for (int i = 1; i < list.size(); i++) {
-            if (i==list.get(i)){
-                count ++;
+        if (sumList!=null){
+            for (int i = 0; i < sumList.size(); i++) {
+                if (sumList.get(i)==index){
+                    count ++;
+                }
             }
         }
         return  count;
     }
 
     /**
-     * 最大遗漏值
+     * @describe 最大遗漏值
+     * @param list 遗漏值的集合
      */
     public static Integer maxOmitValue(List<Integer> list){
         return  Collections.max(list);
     }
 
     /**
-     *平均遗漏值
+     * @describe 平均遗漏值:lastValue判断最后一位是否开奖结果
+     * @param lastValue 最后的开奖结果
+     * @param list  遗漏值的集合列
      */
-    public static Integer averageOmitValue(List<Integer> list){
+    public static Integer averageOmitValue(Integer lastValue,List<Integer> list){
         Integer sum=0;
         if (list.size()>0){
             int total = 0;
-//            boolean falg = false;
+            boolean falg = false;
             for (int i = 1; i < list.size(); i++) {
                 if (list.get(i)<list.get(i-1)){
                     total += list.get(i-1);
-//                    falg = true;
+                       falg = true;
                 }
             }
-//            if (falg==true){
-//                total += list.get(list.size()-1);
-//            }
+            if (falg==true){
+                if (lastValue!=null){
+                    total += list.get(list.size()-1);
+                }
+            }
             sum = (int) Math.sqrt(total);
-            System.out.println("total = "+total+",avg = "+sum);
-//            sum = total/list.size();
         }
         return sum;
     }

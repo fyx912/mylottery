@@ -43,28 +43,25 @@ public class LotteryHFApiService {
         LotteryTrend trend = new LotteryTrend();
         int resultSize = 10;
         for (int j = 0; j < resultSize; j++) {
-//            Integer[] resultArray = new Integer[resultSize];
             List<Integer> list = new ArrayList<>();
-//            List<LotteryHF> hfListValue = new ArrayList<>();
+            List<Integer> sumList = new ArrayList<>();
             for (int i = 0; i <  hfList.size(); i++) {
                 Integer[] result = hfList.get(i).getResult();
                 LotteryHF lotteryHF = hfList.get(i);
                 lotteryHF.setResult(result);
                 list.add(result[j]);
+                sumList.add(Integer.valueOf(lotteryHF.getSum()));
             }
-            System.out.println("list :"+JSONObject.toJSON(list));
+            Integer countValue = LotteryTrendUtil.countOmitValue(sumList,j);
+            countList.add(countValue);
+            Integer resultValue = Integer.valueOf(hfList.get(j).getSum());
+            Integer avgValue = LotteryTrendUtil.averageOmitValue(resultValue,list);
+            avgList.add(avgValue);
             Integer maxOmitValue = LotteryTrendUtil.maxOmitValue(list);
             maxList.add(maxOmitValue);
-            Integer avgValue = LotteryTrendUtil.averageOmitValue(list);
-            avgList.add(avgValue);
-            Integer  maxContinuousValue = LotteryTrendUtil.maxContinuousValue(list);
+            Integer  maxContinuousValue = LotteryTrendUtil.maxContinuousValue(sumList,list);
             maxContinuousList.add(maxContinuousValue);
-
-            Integer countValue = LotteryTrendUtil.countOmitValue(list);
-            countList.add(countValue);
         }
-
-
         trend.setLotteryHF(hfList);
         trend.setMaxOmit(maxList);
         trend.setAvgOmit(avgList);
