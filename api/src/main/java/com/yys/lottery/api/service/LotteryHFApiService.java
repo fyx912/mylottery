@@ -1,6 +1,5 @@
 package com.yys.lottery.api.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
 import com.yys.lottery.core.common.LotteryTypeEnums;
@@ -33,6 +32,14 @@ public class LotteryHFApiService {
       return trendList;
     }
 
+    /**
+     * @describe 高频彩票基本走势图
+     * @param lotteryType 高频彩票的类型
+     * @param index 基本视图索引列
+     * @param page 页面
+     * @param pageSize 页面大小
+     * @return
+     */
     @Cacheable("LotteryHFApiService.lotteryBaseTrend")
     public LotteryTrend  lotteryBaseTrend(String lotteryType,int index,int page,int pageSize){
         List<LotteryHF> hfList = lotteryTrendData(lotteryType,index,page,pageSize);
