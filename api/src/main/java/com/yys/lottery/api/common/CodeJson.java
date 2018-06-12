@@ -24,6 +24,20 @@ public class CodeJson {
         return jsonObject;
     }
 
+    public static String  filed(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",1);
+        jsonObject.put("msg","filed!");
+        return  jsonObject.toString();
+    }
+
+    public static String  filed(int code,String filed){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",code);
+        jsonObject.put("msg","Filed! because:"+filed);
+        return  jsonObject.toString();
+    }
+
     public static String error(){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code",1);

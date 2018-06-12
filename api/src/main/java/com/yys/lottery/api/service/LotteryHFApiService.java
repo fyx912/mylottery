@@ -2,17 +2,14 @@ package com.yys.lottery.api.service;
 
 import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
-import com.yys.lottery.core.common.LotteryTypeEnums;
 import com.yys.lottery.core.domain.LotteryHF;
 import com.yys.lottery.core.domain.LotteryList;
 import com.yys.lottery.core.services.LotteryHFService;
 import com.yys.lottery.core.services.LotteryHFTrendService;
 import com.yys.lottery.core.services.LotteryListService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 

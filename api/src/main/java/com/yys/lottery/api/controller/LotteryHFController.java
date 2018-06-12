@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yys.lottery.api.common.CodeJson;
 import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.service.LotteryHFApiService;
+import com.yys.lottery.core.common.DateTimeFormat;
 import com.yys.lottery.core.common.LotteryTypeEnums;
 import com.yys.lottery.core.domain.LotteryHF;
 import com.yys.lottery.core.services.LotteryHFService;
@@ -15,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.Cacheable;
-
 import java.util.List;
 
 @Api(value = "LotteryHFController",description = "高频彩票相关操作")
@@ -30,6 +30,8 @@ public class LotteryHFController {
     private LotteryHFService hfService;
     @Autowired
     private LotteryListService typeService;
+    @Autowired
+    private LotteryListService listService;
 
     @ApiOperation(value = "获取趋势图",notes = "获取高频率趋势图")
     @ApiResponses(value = {
@@ -92,10 +94,36 @@ public class LotteryHFController {
         return result;
     }
 
-    @ApiOperation(value = "高频彩票获取最新数据",notes = "最新开奖结果信息")
+    @ApiOperation(value = "高频彩票获取最新数据",notes = "所有最新开奖结果信息")
     @RequestMapping(value = "latestData",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public String latestData(){
         List<LotteryHF> hfList = apiService.findLatestData();
         return CodeJson.success(hfList);
     }
+
+    @ApiOperation(value = "高频彩票获取开奖详情",notes = "开奖详情信息")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(paramType = "path",dataType = "string",name = "type",value = "彩票类型",required = true),
+            @ApiImplicitParam(paramType = "path",dataType = "string",name = "date",value = "日期:格式yyyy-MM-dd",required = true)
+    })
+    @RequestMapping(value = "detail/{type}/{date}",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public String lotteryDetailInfo(@PathVariable String type,@PathVariable String date){
+        boolean flag = listService.typeExists(type);
+        String json = null;
+        if (flag){
+            flag =  DateTimeFormat.isValidDate(date);
+            if (flag){
+                List<LotteryHF> hfList =  hfService.findLotteryByDate(type,date);
+                json = CodeJson.success(hfList);
+            }else {
+                logger.info("输入参数有误!{}",date);
+                json =  CodeJson.filed(1,"输入参数有误!");
+            }
+        }else {
+            logger.info("输入参数有误!{}",type);
+            json =  CodeJson.filed(1,"输入参数有误!");
+        }
+        return json;
+    }
+
 }

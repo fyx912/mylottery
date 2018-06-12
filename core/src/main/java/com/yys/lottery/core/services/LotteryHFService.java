@@ -79,4 +79,14 @@ public class LotteryHFService {
     public LotteryHF findLatestData(String lotteryType){
        return sscMapper.findLatestData(lotteryType);
     }
+
+    /**
+     * @describe 根据日期查找开奖信息
+     * @param lotteryType 彩票类型
+     * @param date  查询日期，格式"yyyy-MM-dd"
+     * @return
+     */
+    public List<LotteryHF> findLotteryByDate(String lotteryType,String date){
+        return sscMapper.findLotteryByDate(lotteryType,date);
+    }
 }
