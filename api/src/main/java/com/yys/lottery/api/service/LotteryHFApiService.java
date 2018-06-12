@@ -4,7 +4,10 @@ import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
 import com.yys.lottery.core.common.LotteryTypeEnums;
 import com.yys.lottery.core.domain.LotteryHF;
+import com.yys.lottery.core.domain.LotteryList;
+import com.yys.lottery.core.services.LotteryHFService;
 import com.yys.lottery.core.services.LotteryHFTrendService;
+import com.yys.lottery.core.services.LotteryListService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +20,10 @@ import java.util.List;
 public class LotteryHFApiService {
     @Autowired
     private LotteryHFTrendService trendService;
+    @Autowired
+    private LotteryHFService hfService;
+    @Autowired
+    private LotteryListService lotteryListService;
 
     /**
      * 计算遗漏数据
@@ -146,26 +153,21 @@ public class LotteryHFApiService {
         return sum;
     }
 
-
-    public String subStringNum(String lotteryType,int index,String resultNum){
-        if (StringUtils.isNotEmpty(resultNum)){
-            index -= 1;
-            int first = 2;
-            int end = 2;
-            if (lotteryType.equals(LotteryTypeEnums.HF_BJPK10.getName())||
-                    lotteryType.equals(LotteryTypeEnums.HF_FFPK10.getName())){
-                first=3;
-                first = first*index ;
-                end = first + 2;
-            }else {
-                first *= index;
-                end = end * index + 1;
-            }
-            if (first<end&&end<=resultNum.length()){
-                System.out.println("index= "+index+" 取字符串的first="+first+"\t end="+end);
-                return  resultNum.substring(first,end);
+    /**
+     * @describe 获取最新的数据
+     * @return
+     */
+    public List<LotteryHF>  findLatestData(){
+        List<LotteryHF> hfList = new ArrayList<>();
+        List<LotteryList> lotteryLists = lotteryListService.findLotteryHFAll();
+        if (lotteryLists!=null){
+            for (LotteryList lotteryList: lotteryLists) {
+                String lotteryType = lotteryList.getLotteryId();
+                LotteryHF lotteryHF = hfService.findLatestData(lotteryType);
+                lotteryHF.setType(lotteryType);
+                hfList.add(lotteryHF);
             }
         }
-        return null;
+        return hfList;
     }
 }

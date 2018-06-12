@@ -19,6 +19,12 @@ public class LotteryListService {
         return  listMapper.getAll();
     }
 
+    @Cacheable("lottery.type.list.hf")
+    public List<LotteryList>  findLotteryHFAll(){
+        return  listMapper.getLotteryHFAll();
+    }
+
+
     @Cacheable("lottery.type.exists")
     public boolean typeExists(String lotteryType){
         List<LotteryList> list = this.getAll();

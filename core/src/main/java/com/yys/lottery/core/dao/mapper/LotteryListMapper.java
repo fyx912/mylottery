@@ -21,6 +21,9 @@ public interface LotteryListMapper {
     @Select("select * from t_lottery_list")
     List<LotteryList> getAll();
 
+    @Select("select * from t_lottery_list where lottery_type_id=3")
+    List<LotteryList> getLotteryHFAll();
+
     @Select("select lottery_id from t_lottery_list where lottery_id=${lotteryType}")
     String findType(@Param("lotteryType")String lotteryType);
 }

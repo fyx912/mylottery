@@ -1,7 +1,6 @@
 package com.yys.lottery.api.utils;
 
-import com.alibaba.fastjson.JSONObject;
-
+import com.yys.lottery.core.common.LotteryTypeEnums;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class LotteryTrendUtil {
      */
     public static Integer maxContinuousValue(List<Integer> sumList,List<Integer> list){
         Integer sum=0;
-        System.out.println("max:"+JSONObject.toJSON(sumList));
         if (list.size()>0&&sumList.size()>0){
             for (int i = 0; i <sumList.size() ; i++) {
                 if (sum==0&&sumList.get(i)!=i){
@@ -89,6 +87,38 @@ public class LotteryTrendUtil {
             sum = (int) Math.sqrt(total);
         }
         return sum;
+    }
+
+    /**
+     * @describe 不同彩票的遗漏值列不同
+     * @return
+     */
+    public static int lotteryOmitSize(String lotteryType){
+        int size = 0;
+       if (lotteryType.equalsIgnoreCase(LotteryTypeEnums.HF_CQSSC.getName())||
+               lotteryType.equalsIgnoreCase(LotteryTypeEnums.HF_FFSSC.getName())){
+            size = 9;
+       } else if (lotteryType.equalsIgnoreCase(LotteryTypeEnums.HF_BJPK10.getName())||
+                lotteryType.equalsIgnoreCase(LotteryTypeEnums.HF_FFPK10.getName())){
+            size = 10;
+       }else{
+            size = 9;
+        }
+       return size;
+    }
+
+    /**
+     * @describe 视图开始列
+     * @param type 彩票的类型
+     * @return
+     */
+    public static int lotteryStartRank(String type){
+        int startRank = 0;
+        if (type.equalsIgnoreCase(LotteryTypeEnums.HF_BJPK10.getName())||
+                type.equalsIgnoreCase(LotteryTypeEnums.HF_FFPK10.getName())){
+            startRank = 1;
+        }
+        return startRank;
     }
 
 }

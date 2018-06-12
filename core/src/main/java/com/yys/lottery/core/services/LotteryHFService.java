@@ -17,6 +17,8 @@ public class LotteryHFService {
 
     @Autowired
     private LotteryHFMapper sscMapper;
+    @Autowired
+    private LotteryListService listService;
 
 
     /**
@@ -67,5 +69,14 @@ public class LotteryHFService {
             pageSize = 30;
         }
         return  sscMapper.findHistoryLotteryNoAndResultData(lotteryType,page,pageSize);
+    }
+
+    /**
+     * @describe 获取最新的数据
+     * @param lotteryType 彩票类型
+     * @return
+     */
+    public LotteryHF findLatestData(String lotteryType){
+       return sscMapper.findLatestData(lotteryType);
     }
 }

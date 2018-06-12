@@ -91,4 +91,11 @@ public class LotteryHFController {
         }
         return result;
     }
+
+    @ApiOperation(value = "高频彩票获取最新数据",notes = "最新开奖结果信息")
+    @RequestMapping(value = "latestData",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public String latestData(){
+        List<LotteryHF> hfList = apiService.findLatestData();
+        return CodeJson.success(hfList);
+    }
 }

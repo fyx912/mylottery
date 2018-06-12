@@ -46,4 +46,7 @@ public interface LotteryHFMapper {
     @Select("select lotteryNo,resultNum FROM t_lottery_hf_${lotteryType} order by lotteryNo desc limit ${page},${pageSize}")
     List<LotteryHF> findHistoryLotteryNoAndResultData(@Param("lotteryType") String lotteryType,@Param("page") int page,@Param("pageSize") int pageSize);
 
+    @Select("select * from t_lottery_hf_${lotteryType} order by lotteryNo desc limit 1")
+    LotteryHF findLatestData(@Param("lotteryType") String lotteryType);
+
 }

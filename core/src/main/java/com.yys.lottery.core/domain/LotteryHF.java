@@ -13,6 +13,7 @@ public class LotteryHF {
     private String nextOfficialOpenTime;
     private String stopOrderTime;
 
+    private String type;
     private Integer[] result;
 
     public LotteryHF() {
@@ -128,5 +129,13 @@ public class LotteryHF {
 
     public void setResult(Integer[] result) {
         this.result = result;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
