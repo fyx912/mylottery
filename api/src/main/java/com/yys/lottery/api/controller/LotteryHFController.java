@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.Cacheable;
 import java.util.List;
 
 @Api(value = "LotteryHFController",description = "高频彩票相关操作")
@@ -47,7 +46,6 @@ public class LotteryHFController {
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "page",defaultValue = "1",value = "首页"),
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
     })
-    @Cacheable(value = "lottery.hf.trend")
     @RequestMapping(value = "trend",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8 ")
     public String trendView(@RequestParam String type, @RequestParam(defaultValue = "0") int index,
                             @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "30") int pageSize){
@@ -77,7 +75,6 @@ public class LotteryHFController {
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "page",defaultValue = "1",value = "首页"),
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
     })
-    @Cacheable(value = "lottery.hf.list")
     @RequestMapping(value = "list/{type}",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8 ")
     public String getLotteryData(@PathVariable String type, @RequestParam(defaultValue = "1") int page,
                                  @RequestParam(defaultValue = "30") int pageSize){

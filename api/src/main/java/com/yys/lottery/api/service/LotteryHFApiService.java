@@ -32,7 +32,7 @@ public class LotteryHFApiService {
      */
     public List<LotteryHF> lotteryTrendData(String lotteryType,int index,int page,int pageSize){
       List<LotteryHF>  hfList = trendService.getTrendData(lotteryType,page,pageSize);
-      List<LotteryHF>  trendList = trendDataDispose(lotteryType,index,hfList);
+      List<LotteryHF>  trendList = trendDataDispose(index,hfList);
       return trendList;
     }
 
@@ -44,7 +44,7 @@ public class LotteryHFApiService {
      * @param pageSize 页面大小
      * @return
      */
-    @Cacheable("LotteryHFApiService.lotteryBaseTrend")
+//    @Cacheable(value = "LotteryHFApiService.lotteryBaseTrend",key = "#lotteryType")
     public LotteryTrend  lotteryBaseTrend(String lotteryType,int index,int page,int pageSize){
         List<LotteryHF> hfList = lotteryTrendData(lotteryType,index,page,pageSize);
         List<Integer> maxList = new ArrayList<>();
@@ -88,7 +88,7 @@ public class LotteryHFApiService {
      * @param hfList
      * @return
      */
-    public List<LotteryHF>  trendDataDispose(String lotteryType,int index,List<LotteryHF>  hfList){
+    public List<LotteryHF>  trendDataDispose(int index,List<LotteryHF>  hfList){
         if (hfList!=null){
             LotteryHF hfLottery = null;
             List<LotteryHF> resultList = new ArrayList<>();
@@ -138,6 +138,7 @@ public class LotteryHFApiService {
      * @param data
      * @return
      */
+    @Cacheable(value = "lottery.trend.initOmit",key = "#data")
     public Integer[] initOmitData(int data,int index){
         Integer[] sum= new Integer[index];
         for (int i = 0; i <index ; i++) {
