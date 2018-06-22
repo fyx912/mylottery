@@ -47,7 +47,7 @@ public class Test {
         LotteryCQSSCData cqsscTask = new LotteryCQSSCData();
         List<LotteryHF> list = cqsscTask.getCQSSCData();
 //        sscMapper.InsertObject("cqssc",list.get(0));
-        sscMapper.InsertBatchOObject("cqssc",list);
+        sscMapper.InsertBatchObject("cqssc",list);
     }
 
 

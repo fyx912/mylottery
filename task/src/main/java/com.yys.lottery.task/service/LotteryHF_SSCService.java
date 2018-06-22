@@ -73,14 +73,15 @@ public class LotteryHF_SSCService {
                 Integer planNo = this.getMaxPlanNo(lotteryType);
                 planNo++;
                 result = new ArrayList<>();
+                LotteryHF ssc = null;
                 for (int i = 0; i < cqsscData.size(); i++) {
-                    LotteryHF ssc = new LotteryHF();
+                    ssc = new LotteryHF();
                     ssc = cqsscData.get(i);
                     ssc.setPlanNo(planNo);
                     result.add(ssc);
                     planNo++;
                 }
-                sscMapper.InsertBatchOObject(lotteryType,result);
+                sscMapper.InsertBatchObject(lotteryType,result);
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.yys.lottery.task.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yys.lottery.task.common.LotteryTypeEnums;
 import com.yys.lottery.task.data.LotteryHFData;
 import com.yys.lottery.task.domain.LotteryHF;
 import com.yys.lottery.task.mapper.LotteryHFMapper;
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -35,7 +38,8 @@ public class LotteryHFService {
 
     /**
      * 判断彩票期号是否存在
-     * @param lottery  (彩种，期号)
+     * @param lotteryType  (彩种)
+     * @param lotteryNo 期号
      * @return
      */
     public boolean existsLotteryNo(String lotteryType ,String lotteryNo){
@@ -53,7 +57,7 @@ public class LotteryHFService {
      * 保存所有高频彩票开奖数据
      */
     public void saveLotteryData(){
-        List<LotteryHF> lotteryData = new LotteryHFData().getLotteryHFAllDate();
+        List<LotteryHF> lotteryData = new LotteryHFData().getLotteryHFLastDate();
         if (lotteryData!=null){
             for (int i = 0; i < lotteryData.size(); i++) {
                 LotteryHF lotteryHF =  lotteryData.get(i);
@@ -73,4 +77,52 @@ public class LotteryHFService {
             }
         }
     }
+
+    /**
+     * 批量插入高频彩票数据
+     * @param lotteryType 彩票类型
+     */
+    public void  saveBatchAllLotteryData(String lotteryType){
+        if (lotteryType==null){
+            lotteryType ="cqssc";
+        }
+        List<LotteryHF> result = null;
+        List<LotteryHF> lotteryData = new LotteryHFData().getLotteryData(lotteryType);
+        if (lotteryData!=null){
+            LotteryTypeEnums typeEnum = LotteryTypeEnums.getByName(lotteryType);
+            String type = typeEnum.getName();
+            logger.info("开始批量获取[{}]数据....",type);
+            List<String> lotteryNoList = sscMapper.getLotteryNoByDate(type);
+            if (lotteryNoList != null){
+                Collections.sort(lotteryNoList);
+                for (int i = 0; i <lotteryNoList.size(); i++) {
+                    for (int j = 0; j <lotteryData.size() ; j++) {
+                        if (lotteryNoList.get(i).equals(lotteryData.get(j).getLotteryNo())){
+                            lotteryData.remove(j);
+                            break;
+                        }
+                    }
+                }
+            }
+            logger.info("去重后数据大小:[{}]",lotteryData==null?0:lotteryData.size());
+            if (lotteryData!=null&&lotteryData.size()>0){
+                logger.info(" 初始化获取去重的数据:type[{}] size[{}],json[{}]",type,lotteryData.size(),JSONObject.toJSON(lotteryData));
+                Integer planNo = this.getMaxPlanNo(type);
+                planNo++;
+                result = new ArrayList<>();
+                LotteryHF ssc = null;
+                for (int i = 0; i < lotteryData.size(); i++) {
+                    ssc = new LotteryHF();
+                    ssc = lotteryData.get(i);
+                    ssc.setPlanNo(planNo);
+                    result.add(ssc);
+                    planNo++;
+                }
+                sscMapper.InsertBatchObject(type,result);
+            }
+
+            logger.info("批量获取[{}]数据....end",type);
+        }
+    }
+
 }
