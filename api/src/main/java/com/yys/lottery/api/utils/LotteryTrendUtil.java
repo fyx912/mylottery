@@ -1,6 +1,9 @@
 package com.yys.lottery.api.utils;
 
 import com.yys.lottery.core.common.LotteryTypeEnums;
+import org.apache.commons.lang.ArrayUtils;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -120,5 +123,56 @@ public class LotteryTrendUtil {
         }
         return startRank;
     }
+
+    /**
+     * @describe 波色,(主要分为红,蓝,绿,无)
+     * @remark
+     * 绿波：1，4，7，10，16，19，22，25;
+     * 蓝波：2，5，8，11，17，20，23，26;
+     * 红波：3，6，9，12，15，18，21，24;
+     * 0,13,14,27不属于任何波色
+     * @param sum 计算的值
+     * @return
+     */
+    public static String waveColor(int sum){
+        String waveColor = null;
+        Integer[] noArray = new Integer[]{0,13,14,27};
+        Integer[]  greenArray = new Integer[]{1,4,7,10,16,19,22,25};
+        Integer[] blueArray = new Integer[]{2,5,8,11,17,20,23,26};
+        Integer[] redArray = new Integer[]{3,6,9,12,15,18,21,24};
+
+        if (ArrayUtils.contains(noArray,sum)){
+            waveColor = "无";
+        }else if(ArrayUtils.contains(greenArray,sum)){
+            waveColor = "绿";
+        }else if(ArrayUtils.contains(blueArray,sum)){
+            waveColor = "蓝";
+        }else if(ArrayUtils.contains(redArray,sum)){
+            waveColor = "红";
+        }
+        return  waveColor;
+    }
+
+    /**
+     * @describe 计算大小单双
+     * @remark  大：14～27；小：0～13；单：奇数；双：偶数；
+     * @param sum
+     * @return
+     */
+    public static String  bigMinSingleDouble(int sum){
+        String param = null;
+        if (0<sum&&sum<=13){
+            param = "小";
+        }else {
+            param = "大";
+        }
+        if (sum%2==0){
+            param += "双";
+        }else {
+            param += "单";
+        }
+        return  param;
+    }
+
 
 }

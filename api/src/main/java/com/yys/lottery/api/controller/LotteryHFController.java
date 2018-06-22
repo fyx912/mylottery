@@ -18,6 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "LotteryHFController",description = "高频彩票相关操作")
+@ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success — 请求已完成"),
+        @ApiResponse(code = 400, message = "请求中有语法问题，或不能满足请求"),
+        @ApiResponse(code = 401, message = "未授权客户机访问数据"),
+        @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
+        @ApiResponse(code = 500, message = "服务器不能完成请求")
+})
 @RestController
 @RequestMapping("HF/")
 public class LotteryHFController {
@@ -33,15 +40,8 @@ public class LotteryHFController {
     private LotteryListService listService;
 
     @ApiOperation(value = "获取趋势图",notes = "获取高频率趋势图")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success — 请求已完成"),
-            @ApiResponse(code = 400, message = "请求中有语法问题，或不能满足请求"),
-            @ApiResponse(code = 401, message = "未授权客户机访问数据"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")
-    })
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "path",dataType = "String",name = "type",value = "彩票类型",required = true),
+            @ApiImplicitParam(paramType = "query",dataType = "String",name = "type",value = "彩票类型",required = true),
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "index",defaultValue = "0",value = "彩票位数",required = true),
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "page",defaultValue = "1",value = "首页"),
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
@@ -55,21 +55,45 @@ public class LotteryHFController {
         if (page>0){
             page = pageSize *(page-1);
         }
-        LotteryTrend trend = apiService.lotteryBaseTrend(type,index,page,pageSize);
-        JSONObject json = CodeJson.successJsonObject(trend);
-        json.put("type",type);
-        json.put("index",index);
-        return  json.toString();
+        boolean flag =typeService.typeExists(type);
+        String result;
+        if(flag){
+            LotteryTrend trend = apiService.lotteryBaseTrend(type,index,page,pageSize);
+            JSONObject json = CodeJson.successJsonObject(trend);
+            json.put("type",type);
+            json.put("index",index);
+            result = json.toString();
+        }else {
+            result = CodeJson.error(1,"请求的类型不存在!");
+        }
+        return result;
+    }
+
+    @ApiOperation(value = "获取PC蛋蛋趋势图",notes = "获取PC蛋蛋高频率趋势图")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "path",dataType = "String",name = "type",value = "彩票类型",required = true),
+            @ApiImplicitParam(paramType = "path",dataType = "int",name = "page",defaultValue = "1",value = "首页"),
+            @ApiImplicitParam(paramType = "path",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
+    })
+    @RequestMapping(value = "trend/{type}/{page}/{pageSize}",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8 ")
+    public String trendViewPC(@PathVariable String type ,@PathVariable int page,
+        @PathVariable int pageSize){
+        boolean flag =typeService.typeExists(type);
+        String result;
+        if (flag){
+            if (page>0){
+                page = pageSize *(page-1);
+            }
+            List<LotteryHF> hfList = apiService.pcBaseTrendData(type,page,pageSize);
+            result =  CodeJson.success(hfList);
+        }else {
+            logger.info("请求的类型不存在！");
+            result = CodeJson.error(1,"请求的类型不存在!");
+        }
+        return result;
     }
 
     @ApiOperation(value = "彩票数据集",notes = "获取高频彩票数据集")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success — 请求已完成"),
-            @ApiResponse(code = 400, message = "请求中有语法问题，或不能满足请求"),
-            @ApiResponse(code = 401, message = "未授权客户机访问数据"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")
-    })
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path",dataType = "String",name = "type",value = "彩票类型",required = true),
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "page",defaultValue = "1",value = "首页"),

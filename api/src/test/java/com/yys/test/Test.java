@@ -132,6 +132,9 @@ public class Test {
 
        System.out.println(Math.sqrt(25));
        System.out.println(Math.round(4.47213595499958));
+
+       System.out.println("wave color :"+LotteryTrendUtil.waveColor(21));
+        System.out.println("wave color :"+LotteryTrendUtil.bigMinSingleDouble(21));
     }
 
 }

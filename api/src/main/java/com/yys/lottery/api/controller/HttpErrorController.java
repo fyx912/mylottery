@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Controller
+//@Controller
 public class HttpErrorController implements ErrorController {
 
     private static final String ERROR_PATH = "/error";

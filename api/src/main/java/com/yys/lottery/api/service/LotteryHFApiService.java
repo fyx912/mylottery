@@ -168,4 +168,42 @@ public class LotteryHFApiService {
         }
         return hfList;
     }
+
+    /**
+     * @describe pc蛋蛋基本视图
+     * @return
+     */
+    public List<LotteryHF> pcBaseTrendData(String lotteryType,int page,int pageSize){
+        List<LotteryHF> lotteryHFList = null;
+        List<LotteryHF> hfList =  trendService.getPCBaseTrendData(lotteryType,page,pageSize);
+        if (hfList!=null){
+            LotteryHF lotteryHF = null;
+            lotteryHFList = new ArrayList<>();
+            for (int i = 0; i < hfList.size(); i++) {
+                lotteryHF = new LotteryHF();
+                lotteryHF.setLotteryNo(hfList.get(i).getLotteryNo());
+                String[] num = hfList.get(i).getResultNum().split(",");
+                String result = "";
+                Integer numTotal=0;
+                for (int j = 0; j < num.length; j++) {
+                    result += num[j] +" + ";
+                    numTotal += Integer.valueOf(num[j]);
+                }
+                result = result.substring(0,result.lastIndexOf("+"))+"= "+numTotal;
+                lotteryHF.setResultNum(result);
+                lotteryHF.setOfficialOpenTime(hfList.get(i).getOfficialOpenTime());
+                String sum = hfList.get(i).getSum();
+                if (sum==null){
+                    sum = numTotal.toString();
+                }
+                lotteryHF.setSum(sum);
+                lotteryHF.setRemark(LotteryTrendUtil.bigMinSingleDouble(Integer.valueOf(sum)));
+                lotteryHF.setWaveColor(LotteryTrendUtil.waveColor(Integer.valueOf(sum)));
+
+                lotteryHFList.add(lotteryHF);
+            }
+        }
+        return  lotteryHFList;
+    }
+
 }

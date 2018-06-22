@@ -19,9 +19,20 @@ public class LotteryHFTrendService {
         if (StringUtils.isEmpty(lotteryType)){
             lotteryType = LotteryTypeEnums.HF_CQSSC.getName();
         }
-        if (0>pageSize||page>100){
+        return trendMapper.findTrendData(lotteryType,page,handlePageSize(pageSize));
+    }
+
+    public  List<LotteryHF> getPCBaseTrendData(String lotteryType,int page,int pageSize){
+        if (StringUtils.isEmpty(lotteryType)){
+            lotteryType = LotteryTypeEnums.HF_CQSSC.getName();
+        }
+        return trendMapper.findPCTrendData(lotteryType,page,handlePageSize(pageSize));
+    }
+
+    public int handlePageSize(int pageSize){
+        if (0>pageSize||pageSize>100){
             pageSize = 30;
         }
-        return trendMapper.findTrendData(lotteryType,page,pageSize);
+        return pageSize;
     }
 }

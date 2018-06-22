@@ -32,7 +32,7 @@ public class LotteryListController {
             @ApiResponse(code = 500, message = "服务器不能完成请求")
     })
     @Cacheable(value = "lottery.type")
-    @RequestMapping(value = "type",method = RequestMethod.GET)
+    @RequestMapping(value = "type",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
     public String getLotteryType(){
        List<LotteryList> lotteryLists =  listService.getAll();
        return  CodeJson.success(lotteryLists);

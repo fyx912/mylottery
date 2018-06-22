@@ -15,6 +15,8 @@ public class LotteryHF {
 
     private String type;
     private Integer[] result;
+    private String waveColor; //波色
+    private String remark;
 
     public LotteryHF() {
     }
@@ -137,5 +139,21 @@ public class LotteryHF {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getWaveColor() {
+        return waveColor;
+    }
+
+    public void setWaveColor(String waveColor) {
+        this.waveColor = waveColor;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
