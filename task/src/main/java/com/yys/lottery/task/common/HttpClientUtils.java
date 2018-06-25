@@ -25,8 +25,8 @@ public class HttpClientUtils {
         CloseableHttpClient httpClient=HttpClients.createDefault();
         try {
             HttpGet httpGet = new HttpGet(uri);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000)
-                    .setConnectionRequestTimeout(1000).setSocketTimeout(3000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000)
+                    .setConnectionRequestTimeout(10000).setSocketTimeout(30000).build();
             httpGet.setConfig(requestConfig);
             httpGet.setHeader("Content-Type","text/html; charset=gb2312");
             httpGet.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");
@@ -62,8 +62,8 @@ public class HttpClientUtils {
         CloseableHttpClient httpClient=HttpClients.createDefault();
         try {
             HttpPost httpPost = new HttpPost(uri);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000)
-                    .setConnectionRequestTimeout(1000).setSocketTimeout(3000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000)
+                    .setConnectionRequestTimeout(10000).setSocketTimeout(30000).build();
             httpPost.setConfig(requestConfig);
             System.out.println("executing request:" + httpPost.getURI());
             CloseableHttpResponse response = httpClient.execute(httpPost);

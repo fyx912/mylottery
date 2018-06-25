@@ -2,6 +2,7 @@ package com.yys.lottery.api.service;
 
 import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
+import com.yys.lottery.core.common.LotteryTypeEnums;
 import com.yys.lottery.core.domain.LotteryHF;
 import com.yys.lottery.core.domain.LotteryList;
 import com.yys.lottery.core.services.LotteryHFService;
@@ -53,6 +54,11 @@ public class LotteryHFApiService {
         List<Integer> maxContinuousList = new ArrayList<>();
         LotteryTrend trend = new LotteryTrend();
         int resultSize = 10;
+        if (lotteryType.equals(LotteryTypeEnums.HF_FFK3.getName())||
+                lotteryType.equals(LotteryTypeEnums.HF_BJK3.getName())||
+                lotteryType.equals(LotteryTypeEnums.HF_LFK3.getName())){
+            resultSize = 3;
+        }
         for (int j = 0; j < resultSize; j++) {
             List<Integer> list = new ArrayList<>();
             List<Integer> sumList = new ArrayList<>();

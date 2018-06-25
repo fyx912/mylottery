@@ -19,16 +19,14 @@ public enum LotteryTypeEnums {
      * 高频彩票类型
      */
     HF_CQSSC("重庆时时彩","cqssc"),
-
     HF_FFSSC("分分时时彩","ffssc"),
-
     HF_BJPK10("北京PK拾","bjpk10"),
-
     HF_FFPK10("分分PK拾","ffpk10"),
-
     HF_LK28("幸运28","lk28"),
-
-    HF_BJ28("北京28","bj28");
+    HF_BJ28("北京28","bj28"),
+    HF_BJK3("北京快3","bjk3"),
+    HF_FFK3("分分快3","ffk3"),
+    HF_LFK3("二分快3","lfk3");
 
 
     private String descr;

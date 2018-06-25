@@ -28,7 +28,7 @@ public class LotteryHFData {
     private String hf_url="https://1233caipiao.com/api/v1";
 
     /**
-     * 获取重庆时时彩最新的数据
+     * 获取高频彩票最新的数据
      * @return
      */
     public List<LotteryHF> getLotteryHFLastDate(){
@@ -50,7 +50,10 @@ public class LotteryHFData {
                         lotteryName.equals(LotteryTypeEnums.HF_BJ28.getDescr())||
                         lotteryName.equals(LotteryTypeEnums.HF_LK28.getDescr())||
                         lotteryName.equals(LotteryTypeEnums.HF_FFPK10.getDescr())||
-                        lotteryName.equals(LotteryTypeEnums.HF_BJPK10.getDescr())
+                        lotteryName.equals(LotteryTypeEnums.HF_BJPK10.getDescr())||
+                        lotteryName.equals(LotteryTypeEnums.HF_BJK3.getDescr())||
+                        lotteryName.equals(LotteryTypeEnums.HF_FFK3.getDescr())||
+                        lotteryName.equals(LotteryTypeEnums.HF_LFK3.getDescr())
                         ){
                     String lotteryType = null;
                     if (lotteryName.equals(LotteryTypeEnums.HF_CQSSC.getDescr())){
@@ -70,6 +73,15 @@ public class LotteryHFData {
                     }
                     if (lotteryName.equals(LotteryTypeEnums.HF_BJPK10.getDescr())){
                         lotteryType = LotteryTypeEnums.HF_BJPK10.getName();
+                    }
+                    if (lotteryName.equals(LotteryTypeEnums.HF_BJK3.getDescr())){
+                        lotteryType = LotteryTypeEnums.HF_BJK3.getName();
+                    }
+                    if (lotteryName.equals(LotteryTypeEnums.HF_FFK3.getDescr())){
+                        lotteryType = LotteryTypeEnums.HF_FFK3.getName();
+                    }
+                    if (lotteryName.equals(LotteryTypeEnums.HF_LFK3.getDescr())){
+                        lotteryType = LotteryTypeEnums.HF_LFK3.getName();
                     }
 
                     String resultNum = jsonObject.getString("openCode");

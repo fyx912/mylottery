@@ -2,7 +2,7 @@ package com.yys.test;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.yys.lottery.api.LotteryApiMain;
+import com.yys.lottery.api.ApiMain;
 import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.service.LotteryHFApiService;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = LotteryApiMain.class)
+@SpringBootTest(classes = ApiMain.class)
 public class Test {
 
     @Autowired

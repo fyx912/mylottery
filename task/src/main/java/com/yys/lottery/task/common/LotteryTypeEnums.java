@@ -24,6 +24,9 @@ public enum LotteryTypeEnums {
     HF_FFPK10("分分PK拾","ffpk10"),
     HF_LK28("幸运28","lk28"),
     HF_BJ28("北京28","bj28"),
+    HF_BJK3("北京快3","bjk3"),
+    HF_FFK3("分分快3","ffk3"),
+    HF_LFK3("二分快3","lfk3"),
 
     //抓取数据的字段和本地字段对应
     CQSSC("HF_CQSSC","cqssc"),
@@ -31,7 +34,10 @@ public enum LotteryTypeEnums {
     BJPK10("HF_BJPK10","bjpk10"),
     FFPK10("HF_FFPK10","ffpk10"),
     LK28("HF_LF28","lk28"),
-    BJ28("HF_BJ28","bj28");
+    BJ28("HF_BJ28","bj28"),
+    BJK3("HF_BJK3","bjk3"),
+    FFK3("HF_FFK3","ffk3"),
+    LFK3("HF_LFK3","lfk3");
 
     private String descr;
     private String name;

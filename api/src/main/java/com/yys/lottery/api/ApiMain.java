@@ -16,14 +16,14 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan(basePackages = {"com.yys.lottery.*.dao.*"})
 @ComponentScan(basePackages = {"com.yys.*"})
 @SpringBootApplication
-public class LotteryApiMain extends SpringBootServletInitializer {
+public class ApiMain extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        builder.sources(LotteryApiMain.class);
+        builder.sources(ApiMain.class);
         return super.configure(builder);
     }
 
     public static void main(String[] args){
-        SpringApplication.run(LotteryApiMain.class,args);
+        SpringApplication.run(ApiMain.class,args);
     }
 }
