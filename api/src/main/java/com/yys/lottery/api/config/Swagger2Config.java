@@ -34,7 +34,7 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title(" 彩票 Api")
                 .contact(new Contact("tinTin","www.yys.com","fyx912@163.com"))
-                .version("1.0")
+                .version("1.0.0")
                 .description("Api 描述")
                 .build();
     }

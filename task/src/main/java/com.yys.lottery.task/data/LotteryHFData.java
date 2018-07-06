@@ -53,7 +53,12 @@ public class LotteryHFData {
                         lotteryName.equals(LotteryTypeEnums.HF_BJPK10.getDescr())||
                         lotteryName.equals(LotteryTypeEnums.HF_BJK3.getDescr())||
                         lotteryName.equals(LotteryTypeEnums.HF_FFK3.getDescr())||
-                        lotteryName.equals(LotteryTypeEnums.HF_LFK3.getDescr())
+                        lotteryName.equals(LotteryTypeEnums.HF_LFK3.getDescr())||
+
+                        lotteryName.equals(LotteryTypeEnums.HF_XJSSC.getDescr())||
+                        lotteryName.equals(LotteryTypeEnums.HF_TJSSC.getDescr())||
+                        lotteryName.equals(LotteryTypeEnums.HF_LFSSC.getDescr())||
+                        lotteryName.equals(LotteryTypeEnums.HF_LFPK10.getDescr())
                         ){
                     String lotteryType = null;
                     if (lotteryName.equals(LotteryTypeEnums.HF_CQSSC.getDescr())){
@@ -82,6 +87,18 @@ public class LotteryHFData {
                     }
                     if (lotteryName.equals(LotteryTypeEnums.HF_LFK3.getDescr())){
                         lotteryType = LotteryTypeEnums.HF_LFK3.getName();
+                    }
+                    if (lotteryName.equals(LotteryTypeEnums.HF_XJSSC.getDescr())){
+                        lotteryType = LotteryTypeEnums.HF_XJSSC.getName();
+                    }
+                    if (lotteryName.equals(LotteryTypeEnums.HF_TJSSC.getDescr())){
+                        lotteryType = LotteryTypeEnums.HF_TJSSC.getName();
+                    }
+                    if (lotteryName.equals(LotteryTypeEnums.HF_LFSSC.getDescr())){
+                        lotteryType = LotteryTypeEnums.HF_LFSSC.getName();
+                    }
+                    if (lotteryName.equals(LotteryTypeEnums.HF_LFPK10.getDescr())){
+                        lotteryType = LotteryTypeEnums.HF_LFPK10.getName();
                     }
 
                     String resultNum = jsonObject.getString("openCode");
@@ -118,23 +135,34 @@ public class LotteryHFData {
      */
     public List<LotteryHF> getLotteryData(String type){
         String url = hf_url;
-        String cqsscResultsUrl = url+"/result/service/mobile/results/hist/"+type+"?limit=50";
-        String result =  HttpClientUtils.getMethod(cqsscResultsUrl);
-        logger.info("获取50条数据:URL[{}],Data[{}]",cqsscResultsUrl,result);
+        String resultsUrl = url+"/result/service/mobile/results/hist/"+type+"?limit=100";
+        String result =  HttpClientUtils.getMethod(resultsUrl);
+        logger.info("获取100条数据:URL[{}],Data[{}]",resultsUrl,result);
         JSONArray jsonArray =  JSONArray.parseArray(result);
         List<LotteryHF> resultList = null;
-        LotteryHF lotteryHF_ssc =null;
+        LotteryHF lottery =null;
         if (jsonArray!=null){
             resultList = new ArrayList<>();
             for (int i = 0; i < jsonArray.size(); i++) {
-                lotteryHF_ssc = new LotteryHF();
+                lottery = new LotteryHF();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                lotteryHF_ssc.setResultNum(jsonObject.getString("openCode"));
-                lotteryHF_ssc.setOfficialOpenTime(DateTimeFormat.forMatDate(jsonObject.getDate("officialOpenTime")));
-                lotteryHF_ssc.setNextOfficialOpenTime(DateTimeFormat.forMatDate(jsonObject.getDate("nextStopOrderTime")));
-                lotteryHF_ssc.setStopOrderTime(DateTimeFormat.forMatDate(jsonObject.getDate("stopOrderTime")));
-                lotteryHF_ssc.setLotteryNo(jsonObject.getString("uniqueIssueNumber"));
-                resultList.add(lotteryHF_ssc);
+                String resultNum = jsonObject.getString("openCode");
+                if (StringUtils.isEmpty(resultNum)){
+                    logger.info("{}的开奖结果为{}",type,resultNum);
+                    continue;
+                }
+                lottery.setResultNum(resultNum);
+                String[] num = resultNum.split(",");
+                Integer sum =0;
+                for (int j = 0; j <num.length ; j++) {
+                    sum += Integer.valueOf(num[j]);
+                }
+                lottery.setSum(sum.toString());
+                lottery.setOfficialOpenTime(DateTimeFormat.forMatDate(jsonObject.getDate("officialOpenTime")));
+                lottery.setNextOfficialOpenTime(DateTimeFormat.forMatDate(jsonObject.getDate("nextStopOrderTime")));
+                lottery.setStopOrderTime(DateTimeFormat.forMatDate(jsonObject.getDate("stopOrderTime")));
+                lottery.setLotteryNo(jsonObject.getString("uniqueIssueNumber"));
+                resultList.add(lottery);
             }
             Collections.sort(resultList, new Comparator<LotteryHF>() {
                 @Override

@@ -110,12 +110,12 @@ public class LotteryHFService {
                 Integer planNo = this.getMaxPlanNo(type);
                 planNo++;
                 result = new ArrayList<>();
-                LotteryHF ssc = null;
+                LotteryHF lottery = null;
                 for (int i = 0; i < lotteryData.size(); i++) {
-                    ssc = new LotteryHF();
-                    ssc = lotteryData.get(i);
-                    ssc.setPlanNo(planNo);
-                    result.add(ssc);
+                    lottery = new LotteryHF();
+                    lottery = lotteryData.get(i);
+                    lottery.setPlanNo(planNo);
+                    result.add(lottery);
                     planNo++;
                 }
                 sscMapper.InsertBatchObject(type,result);

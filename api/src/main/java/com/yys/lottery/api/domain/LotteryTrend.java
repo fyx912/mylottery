@@ -13,6 +13,4 @@ public class LotteryTrend {
     private List<Integer> countOmit;//出现总次数
     private List<Integer> maxContinuous;//最大连出值
 
-    public LotteryTrend() {
-    }
 }

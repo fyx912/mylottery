@@ -23,6 +23,7 @@ dependencies {
             project(":core"),
 //            "javax.servlet:javax.servlet-api:3.0.1",
             "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}",
+            "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}",
             "io.springfox:springfox-swagger2:${springfox}",
             "io.springfox:springfox-swagger-ui:${springfox}"
     )

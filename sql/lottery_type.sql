@@ -35,7 +35,7 @@ CREATE TABLE `t_lottery_hf_bj28` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
   UNIQUE KEY `planNo_UNIQUE` (`planNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=525 DEFAULT CHARSET=ucs2;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `t_lottery_hf_bjpk10` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
   UNIQUE KEY `planNo_UNIQUE` (`planNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=529 DEFAULT CHARSET=ucs2;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +81,7 @@ CREATE TABLE `t_lottery_hf_cqssc` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
   UNIQUE KEY `planNo_UNIQUE` (`planNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=502 DEFAULT CHARSET=ucs2;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `t_lottery_hf_ffpk10` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
   UNIQUE KEY `planNo_UNIQUE` (`planNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=1380 DEFAULT CHARSET=ucs2;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `t_lottery_hf_ffssc` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
   UNIQUE KEY `planNo_UNIQUE` (`planNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=1426 DEFAULT CHARSET=ucs2;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +150,7 @@ CREATE TABLE `t_lottery_hf_lk28` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
   UNIQUE KEY `planNo_UNIQUE` (`planNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=923 DEFAULT CHARSET=ucs2;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -163,3 +163,103 @@ CREATE TABLE `t_lottery_hf_lk28` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-06-08 19:08:06
+
+
+DROP TABLE IF EXISTS `t_lottery_hf_lfpk10`;
+CREATE TABLE `t_lottery_hf_lfpk10` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `planNo` int(11) NOT NULL,
+  `lotteryNo` varchar(24) NOT NULL COMMENT '彩票期号',
+  `resultNum` varchar(32) NOT NULL COMMENT '开奖号码',
+  `officialOpenTime` varchar(45) NOT NULL,
+  `nextOfficialOpenTime` varchar(45) NOT NULL,
+  `stopOrderTime` varchar(45) NOT NULL,
+  `sum` varchar(24) DEFAULT NULL COMMENT '总和',
+  `bullfight` varchar(24) DEFAULT NULL COMMENT '斗牛',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
+  UNIQUE KEY `planNo_UNIQUE` (`planNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
+
+DROP TABLE IF EXISTS `t_lottery_hf_lfssc`;
+CREATE TABLE `t_lottery_hf_lfssc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `planNo` int(11) NOT NULL,
+  `lotteryNo` varchar(24) NOT NULL COMMENT '彩票期号',
+  `resultNum` varchar(24) NOT NULL COMMENT '开奖号码',
+  `officialOpenTime` varchar(45) NOT NULL,
+  `nextOfficialOpenTime` varchar(45) NOT NULL,
+  `stopOrderTime` varchar(45) NOT NULL,
+  `sum` varchar(24) DEFAULT NULL COMMENT '总和',
+  `bullfight` varchar(24) DEFAULT NULL COMMENT '斗牛',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
+  UNIQUE KEY `planNo_UNIQUE` (`planNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
+
+DROP TABLE IF EXISTS `t_lottery_hf_lfpk10`;
+CREATE TABLE `t_lottery_hf_lfpk10` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `planNo` int(11) NOT NULL,
+  `lotteryNo` varchar(24) NOT NULL COMMENT '彩票期号',
+  `resultNum` varchar(24) NOT NULL COMMENT '开奖号码',
+  `officialOpenTime` varchar(45) NOT NULL,
+  `nextOfficialOpenTime` varchar(45) NOT NULL,
+  `stopOrderTime` varchar(45) NOT NULL,
+  `sum` varchar(24) DEFAULT NULL COMMENT '总和',
+  `bullfight` varchar(24) DEFAULT NULL COMMENT '斗牛',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
+  UNIQUE KEY `planNo_UNIQUE` (`planNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
+
+DROP TABLE IF EXISTS `t_lottery_hf_lfk3`;
+CREATE TABLE `t_lottery_hf_lfk3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `planNo` int(11) NOT NULL,
+  `lotteryNo` varchar(24) NOT NULL COMMENT '彩票期号',
+  `resultNum` varchar(24) NOT NULL COMMENT '开奖号码',
+  `officialOpenTime` varchar(45) NOT NULL,
+  `nextOfficialOpenTime` varchar(45) NOT NULL,
+  `stopOrderTime` varchar(45) NOT NULL,
+  `sum` varchar(24) DEFAULT NULL COMMENT '总和',
+  `bullfight` varchar(24) DEFAULT NULL COMMENT '斗牛',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
+  UNIQUE KEY `planNo_UNIQUE` (`planNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
+
+DROP TABLE IF EXISTS `t_lottery_hf_ffk3`;
+CREATE TABLE `t_lottery_hf_ffk3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `planNo` int(11) NOT NULL,
+  `lotteryNo` varchar(24) NOT NULL COMMENT '彩票期号',
+  `resultNum` varchar(24) NOT NULL COMMENT '开奖号码',
+  `officialOpenTime` varchar(45) NOT NULL,
+  `nextOfficialOpenTime` varchar(45) NOT NULL,
+  `stopOrderTime` varchar(45) NOT NULL,
+  `sum` varchar(24) DEFAULT NULL COMMENT '总和',
+  `bullfight` varchar(24) DEFAULT NULL COMMENT '斗牛',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
+  UNIQUE KEY `planNo_UNIQUE` (`planNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
+
+DROP TABLE IF EXISTS `t_lottery_hf_bjk3`;
+CREATE TABLE `t_lottery_hf_bjk3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `planNo` int(11) NOT NULL,
+  `lotteryNo` varchar(24) NOT NULL COMMENT '彩票期号',
+  `resultNum` varchar(24) NOT NULL COMMENT '开奖号码',
+  `officialOpenTime` varchar(45) NOT NULL,
+  `nextOfficialOpenTime` varchar(45) NOT NULL,
+  `stopOrderTime` varchar(45) NOT NULL,
+  `sum` varchar(24) DEFAULT NULL COMMENT '总和',
+  `bullfight` varchar(24) DEFAULT NULL COMMENT '斗牛',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lotteryNo_UNIQUE` (`lotteryNo`),
+  UNIQUE KEY `planNo_UNIQUE` (`planNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=ucs2;
+
+
+

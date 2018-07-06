@@ -124,7 +124,10 @@ public class Test {
     }
 
     public static  void main (String[] args){
-        System.out.println(LotteryTypeEnums.getByDescr("cqssc"));
+        String type = "cqssc";
+        System.out.println(LotteryTypeEnums.getByDescr(type));
+        System.out.println(LotteryTypeEnums.getByDescr(type).getName());
+        System.out.println(LotteryTypeEnums.getByDescr(type).getDescr());
         String resultNum = "1,9,2,7,8";
         String result = resultNum.substring(0,1);
         System.out.println(result);

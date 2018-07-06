@@ -89,4 +89,26 @@ public class LotteryHFService {
     public List<LotteryHF> findLotteryByDate(String lotteryType,String date){
         return sscMapper.findLotteryByDate(lotteryType,date);
     }
+
+    /**
+     * @describe 获取开奖结果的
+     * @return
+     */
+    public Integer resultNumLength(String lotteryType){
+        String result = sscMapper.findResultNum(lotteryType);
+        if (result!=null&&result.length()>2){
+            return result.split(",").length;
+        }else {
+            return 0;
+        }
+    }
+
+    /**
+     * @describe 历史开奖结果
+     * @return
+     */
+    public List<LotteryHF> historyOpenResult(String type,Integer page,Integer pageSize){
+        List<LotteryHF> hfList = sscMapper.findHistoryOpenResult(type,page,pageSize);
+        return  hfList;
+    }
 }

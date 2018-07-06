@@ -18,9 +18,9 @@ public interface LotteryHFMapper {
 
     @Insert({
             "<script>" +
-                    "insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime) values " +
+                    "insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime,sum) values " +
                     "<foreach item='list' index='key' collection='list' separator=','>" +
-                    "(#{list.planNo},#{list.lotteryNo},#{list.resultNum},#{list.officialOpenTime},#{list.nextOfficialOpenTime},#{list.stopOrderTime})" +
+                    "(#{list.planNo},#{list.lotteryNo},#{list.resultNum},#{list.officialOpenTime},#{list.nextOfficialOpenTime},#{list.stopOrderTime},#{list.sum})" +
                     " </foreach>"+
                     "</script>"
     })

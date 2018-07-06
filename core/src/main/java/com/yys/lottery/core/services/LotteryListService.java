@@ -35,4 +35,5 @@ public class LotteryListService {
         }
         return false;
     }
+
 }

@@ -2,6 +2,8 @@ package com.yys.lottery.api.common;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.Map;
+
 public class CodeJson {
 
     public static JSONObject success(){
@@ -15,6 +17,12 @@ public class CodeJson {
     public static String success(Object data){
         JSONObject jsonObject = success();
         jsonObject.put("data",data);
+        return jsonObject.toString();
+    }
+
+    public static String success(Map map){
+        JSONObject jsonObject = success();
+        jsonObject.putAll(map);
         return jsonObject.toString();
     }
 

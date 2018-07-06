@@ -20,8 +20,12 @@ public enum LotteryTypeEnums {
      */
     HF_CQSSC("重庆时时彩","cqssc"),
     HF_FFSSC("分分时时彩","ffssc"),
+    HF_XJSSC("新疆时时彩","xjssc"),
+    HF_TJSSC("天津时时彩","tjssc"),
+    HF_LFSSC("二分时时彩","lfssc"),
     HF_BJPK10("北京PK拾","bjpk10"),
     HF_FFPK10("分分PK拾","ffpk10"),
+    HF_LFPK10("二分PK拾","lfpk10"),
     HF_LK28("幸运28","lk28"),
     HF_BJ28("北京28","bj28"),
     HF_BJK3("北京快3","bjk3"),
@@ -56,7 +60,7 @@ public enum LotteryTypeEnums {
     public static  LotteryTypeEnums  getByName(String descr){
         LotteryTypeEnums[] array = LotteryTypeEnums.values();
         for (LotteryTypeEnums enums :array){
-            if (enums.getDescr()==descr){
+            if (enums.getDescr().equalsIgnoreCase(descr)){
                 return enums;
             }
         }
@@ -66,7 +70,7 @@ public enum LotteryTypeEnums {
     public static  LotteryTypeEnums  getByDescr(String name){
         LotteryTypeEnums[] array = LotteryTypeEnums.values();
         for (LotteryTypeEnums enums :array){
-            if (enums.getName()==name){
+            if (enums.getName().equalsIgnoreCase(name)){
                 return enums;
             }
         }

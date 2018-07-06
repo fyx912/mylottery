@@ -15,7 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "LotteryHFController",description = "高频彩票相关操作")
 @ApiResponses(value = {
@@ -47,22 +50,25 @@ public class LotteryHFController {
             @ApiImplicitParam(paramType = "query",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
     })
     @RequestMapping(value = "trend",method = {RequestMethod.GET},produces = "application/json;charset=UTF-8 ")
-    public String trendView(@RequestParam String type, @RequestParam(defaultValue = "0") int index,
+    public String trendView(@RequestParam(defaultValue = "cqssc") String type, @RequestParam(defaultValue = "0") int index,
                             @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "30") int pageSize){
-        if (StringUtils.isEmpty(type)){
-            type = LotteryTypeEnums.HF_CQSSC.getName();
-        }
         if (page>0){
             page = pageSize *(page-1);
         }
         boolean flag =typeService.typeExists(type);
         String result;
         if(flag){
-            LotteryTrend trend = apiService.lotteryBaseTrend(type,index,page,pageSize);
-            JSONObject json = CodeJson.successJsonObject(trend);
-            json.put("type",type);
-            json.put("index",index);
-            result = json.toString();
+            Integer length = hfService.resultNumLength(type);
+            if (index<=length-1){
+                LotteryTrend trend = apiService.lotteryBaseTrend(type,index,page,pageSize);
+                JSONObject json = CodeJson.successJsonObject(trend);
+                json.put("type",type);
+                json.put("index",index);
+                json.put("count",trend.getLotteryHF().size());
+                result = json.toString();
+            }else {
+                result = CodeJson.error(1,"请求的参数超出范围!");
+            }
         }else {
             result = CodeJson.error(1,"请求的类型不存在!");
         }
@@ -119,7 +125,10 @@ public class LotteryHFController {
     @RequestMapping(value = "latestData",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public String latestData(){
         List<LotteryHF> hfList = apiService.findLatestData();
-        return CodeJson.success(hfList);
+        Map map = new HashMap();
+        map.put("count",hfList.size());
+        map.put("data",hfList);
+        return CodeJson.success(map);
     }
 
     @ApiOperation(value = "高频彩票获取开奖详情",notes = "开奖详情信息")
@@ -144,6 +153,39 @@ public class LotteryHFController {
             logger.info("输入参数有误!{}",type);
             json =  CodeJson.filed(1,"输入参数有误!");
         }
+        return json;
+    }
+
+    @ApiOperation(value = "高频彩历史开奖结果",notes = "开奖历史")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(paramType = "path",dataType = "string",name = "type",value = "彩票类型",required = true),
+            @ApiImplicitParam(paramType = "query",dataType = "int",name = "page",defaultValue = "1",value = "首页"),
+            @ApiImplicitParam(paramType = "query",dataType = "int",name = "pageSize",defaultValue = "30",value = "页面大小")
+    })
+    @RequestMapping(value = "history/{type}",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    public String lotteryHistory(@PathVariable String type,@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "30")Integer pageSize){
+        boolean flag = listService.typeExists(type);
+        String json = null;
+        if (flag){
+            if (page>0){
+                page = pageSize *(page-1);
+                List<LotteryHF> hfList = hfService.historyOpenResult(type,page,pageSize);
+                Map<String,Object> map = new HashMap();
+                map.put("page",page);
+                map.put("pageSize",pageSize);
+                map.put("count",hfList.size());
+                map.put("type",type);
+                map.put("name",LotteryTypeEnums.getByDescr(type).getDescr());
+                map.put("data",hfList);
+                json = CodeJson.success(map);
+            }else {
+                logger.info("输入参数有误!{}",page);
+                json =  CodeJson.filed(1,"输入参数有误!");
+            }
+        }else {
+            json =  CodeJson.filed(1,"输入参数有误!");
+        }
+
         return json;
     }
 
