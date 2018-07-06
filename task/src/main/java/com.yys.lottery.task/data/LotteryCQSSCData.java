@@ -34,7 +34,7 @@ public class LotteryCQSSCData {
      */
     public List<LotteryHF> getCQSSCData(){
         String url = hf_url;
-        String cqsscResultsUrl = url+"/result/service/mobile/results/hist/HF_CQSSC?limit=100";
+        String cqsscResultsUrl = url+"/result/service/mobile/results/hist/HF_CQSSC?limit=50";
         String result =  HttpClientUtils.getMethod(cqsscResultsUrl);
         logger.info("获取cqssc 100 条数据:URL[{}],Data[{}]",cqsscResultsUrl,result);
         JSONArray jsonArray =  JSONArray.parseArray(result);

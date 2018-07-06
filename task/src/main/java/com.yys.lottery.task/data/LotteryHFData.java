@@ -112,15 +112,15 @@ public class LotteryHFData {
     }
 
     /**
-     * 获取当天100条数据
+     * 获取当天50条数据
      * @param type  彩票类型
      * @return
      */
     public List<LotteryHF> getLotteryData(String type){
         String url = hf_url;
-        String cqsscResultsUrl = url+"/result/service/mobile/results/hist/"+type+"?limit=100";
+        String cqsscResultsUrl = url+"/result/service/mobile/results/hist/"+type+"?limit=50";
         String result =  HttpClientUtils.getMethod(cqsscResultsUrl);
-        logger.info("获取cqssc 100 条数据:URL[{}],Data[{}]",cqsscResultsUrl,result);
+        logger.info("获取50条数据:URL[{}],Data[{}]",cqsscResultsUrl,result);
         JSONArray jsonArray =  JSONArray.parseArray(result);
         List<LotteryHF> resultList = null;
         LotteryHF lotteryHF_ssc =null;

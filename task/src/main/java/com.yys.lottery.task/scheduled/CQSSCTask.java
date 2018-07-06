@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 
-@Component
+//@Component
 public class CQSSCTask {
     private Logger logger = LoggerFactory.getLogger(CQSSCTask.class);
     private int countSum = 0;
@@ -25,7 +25,7 @@ public class CQSSCTask {
         service.saveBatchLotteryData();
     }
 
-    @Scheduled(fixedRate = 5*60*1000)        //fixedRate = 5000表示当前方法开始执行5分钟后，Spring scheduling会再次调用该方法
+//    @Scheduled(fixedRate = 5*60*1000)        //fixedRate = 5000表示当前方法开始执行5分钟后，Spring scheduling会再次调用该方法
     public void executeSaveObjectTask() {
         logger.info("重庆时时彩5分钟运行一次.....第[{}]次.",countSum++);
         service.saveLotteryData(LotteryTypeEnums.HF_CQSSC.getName());

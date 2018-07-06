@@ -21,7 +21,8 @@ public class TaskApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("高频彩票初始化运行......runTime[{}]",DateTimeFormat.forMatDate(new Date()));
-        String[] type = new String[]{"HF_CQSSC","HF_FFSSC","HF_BJPK10","HF_FFPK10","HF_LF28","HF_BJ28"};
+        String[] type = new String[]{"HF_CQSSC","HF_FFSSC","HF_BJPK10","HF_FFPK10",
+                "HF_LF28","HF_BJ28","HF_BJK3","HF_LFK3","HF_FFK3"};
         for (int i = 0; i < type.length; i++) {
             service.saveBatchAllLotteryData(type[i]);
             Thread.sleep(30 * 1000);

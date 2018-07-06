@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class HttpClientUtils {
     private static Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+    private static int time = 30000;
     /**
      * Http request get method
      * @param uri example "https://www.baidu.com/"
@@ -25,14 +26,14 @@ public class HttpClientUtils {
         CloseableHttpClient httpClient=HttpClients.createDefault();
         try {
             HttpGet httpGet = new HttpGet(uri);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000)
-                    .setConnectionRequestTimeout(10000).setSocketTimeout(30000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(time)
+                    .setConnectionRequestTimeout(time).setSocketTimeout(time).build();
             httpGet.setConfig(requestConfig);
             httpGet.setHeader("Content-Type","text/html; charset=gb2312");
-            httpGet.setHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");
-            System.out.println("executing request:" + httpGet.getURI());
+            httpGet.setHeader("User-Agent", "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");
+//            System.out.println("executing request:" + httpGet.getURI());
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            int code = response.getStatusLine().getStatusCode();
+//            int code = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 // 打印响应内容
@@ -62,10 +63,10 @@ public class HttpClientUtils {
         CloseableHttpClient httpClient=HttpClients.createDefault();
         try {
             HttpPost httpPost = new HttpPost(uri);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30000)
-                    .setConnectionRequestTimeout(10000).setSocketTimeout(30000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(time)
+                    .setConnectionRequestTimeout(time).setSocketTimeout(time).build();
             httpPost.setConfig(requestConfig);
-            System.out.println("executing request:" + httpPost.getURI());
+//            System.out.println("executing request:" + httpPost.getURI());
             CloseableHttpResponse response = httpClient.execute(httpPost);
             int code = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
