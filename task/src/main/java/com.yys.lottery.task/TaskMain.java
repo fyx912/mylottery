@@ -16,7 +16,7 @@ import org.springframework.web.SpringServletContainerInitializer;
 @EnableCaching
 @ServletComponentScan
 @EnableAutoConfiguration
-@MapperScan(basePackages = {"com.yys.lottery.*.mapper.*"})
+@MapperScan({"com.yys.lottery.*","com.yys.lottery.task.mapper.*","com.yys.lottery.core.dao.mapper.*"})
 @ComponentScan(basePackages = {"com.yys.*"})
 @EnableScheduling
 @SpringBootApplication

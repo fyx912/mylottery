@@ -1,10 +1,11 @@
 package com.yys.lottery.task.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yys.lottery.task.common.CommonURL;
 import com.yys.lottery.task.common.LotteryTypeEnums;
 import com.yys.lottery.task.data.LotteryHFData;
-import com.yys.lottery.task.domain.LotteryHF;
-import com.yys.lottery.task.mapper.LotteryHFMapper;
+import com.yys.lottery.core.domain.LotteryHF;
+import com.yys.lottery.task.mapper.LotteryTaskHFMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +17,13 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class LotteryHFService {
-    private Logger logger = LoggerFactory.getLogger(LotteryHFService.class);
+public class LotteryHFTaskService {
+    private Logger logger = LoggerFactory.getLogger(LotteryHFTaskService.class);
 
     @Autowired
-    private LotteryHFMapper sscMapper;
-
+    private LotteryTaskHFMapper sscMapper;
+    @Autowired
+    private CommonURL commonURL;
 
     /**
      * 获取最大planNo，当编号为null 则设置默认为1
@@ -57,7 +59,7 @@ public class LotteryHFService {
      * 保存所有高频彩票开奖数据
      */
     public void saveLotteryData(){
-        List<LotteryHF> lotteryData = new LotteryHFData().getLotteryHFLastDate();
+        List<LotteryHF> lotteryData = new LotteryHFData().getLotteryHFLastDate(commonURL.getHf_url());
         if (lotteryData!=null){
             for (int i = 0; i < lotteryData.size(); i++) {
                 LotteryHF lotteryHF =  lotteryData.get(i);
@@ -87,7 +89,7 @@ public class LotteryHFService {
             lotteryType ="cqssc";
         }
         List<LotteryHF> result = null;
-        List<LotteryHF> lotteryData = new LotteryHFData().getLotteryData(lotteryType);
+        List<LotteryHF> lotteryData = new LotteryHFData().getLotteryData(lotteryType,commonURL.getHf_url());
         if (lotteryData!=null){
             LotteryTypeEnums typeEnum = LotteryTypeEnums.getByName(lotteryType);
             String type = typeEnum.getName();
@@ -120,7 +122,6 @@ public class LotteryHFService {
                 }
                 sscMapper.InsertBatchObject(type,result);
             }
-
             logger.info("批量获取[{}]数据....end",type);
         }
     }

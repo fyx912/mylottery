@@ -1,7 +1,7 @@
 package com.yys.lottery.task.scheduled;
 
 import com.yys.lottery.task.common.DateTimeFormat;
-import com.yys.lottery.task.service.LotteryHFService;
+import com.yys.lottery.task.service.LotteryHFTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class LotteryHFTask {
     private int countSum = 0;
 
     @Autowired
-    private LotteryHFService hfService;
+    private LotteryHFTaskService hfService;
 
     @Scheduled(fixedRate = 60000)//1分钟运行一次
     public void lotteryHFTask(){

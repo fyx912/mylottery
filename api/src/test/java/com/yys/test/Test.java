@@ -7,6 +7,7 @@ import com.yys.lottery.api.domain.LotteryTrend;
 import com.yys.lottery.api.service.LotteryHFApiService;
 import com.yys.lottery.api.utils.LotteryTrendUtil;
 import com.yys.lottery.core.common.LotteryTypeEnums;
+import com.yys.lottery.core.common.Md5Util;
 import com.yys.lottery.core.domain.LotteryHF;
 import com.yys.lottery.core.domain.LotteryList;
 import com.yys.lottery.core.services.LotteryHFService;
@@ -14,6 +15,7 @@ import com.yys.lottery.core.services.LotteryHFTrendService;
 import com.yys.lottery.core.services.LotteryListService;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -36,6 +38,7 @@ public class Test {
 
     @Autowired
     private LotteryHFApiService hfApiService;
+
 
     @org.junit.Test
     public void getLotteryList(){
@@ -138,6 +141,9 @@ public class Test {
 
        System.out.println("wave color :"+LotteryTrendUtil.waveColor(21));
         System.out.println("wave color :"+LotteryTrendUtil.bigMinSingleDouble(21));
+
+        System.out.println(Md5Util.md5Up(resultNum));
+        System.out.println(Md5Util.md5(resultNum));
     }
 
 }

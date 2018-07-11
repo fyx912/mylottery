@@ -11,21 +11,21 @@ public interface LotteryHFMapper {
     @Select("SELECT MAX(planNo) FROM t_lottery_hf_${lotteryType}")
     Integer getMaxPlanNo(@Param("lotteryType") String lotteryType);
 
-    @Insert("insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime) " +
-            "values(#{lottery.planNo},#{lottery.lotteryNo},#{lottery.resultNum},#{lottery.officialOpenTime},#{lottery.nextOfficialOpenTime},#{lottery.stopOrderTime})")
+    @Insert("insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime,sum) " +
+            "values(#{lottery.planNo},#{lottery.lotteryNo},#{lottery.resultNum},#{lottery.officialOpenTime},#{lottery.nextOfficialOpenTime},#{lottery.stopOrderTime},#{lottery.sum})")
     @Options(useGeneratedKeys = true,keyProperty = "lottery.id",keyColumn = "id")
-    Integer InsertObject(@Param("lotteryType") String lotteryType, @Param("lottery") LotteryHF lottery);
+    Integer InsertObject(@Param("lotteryType") String lotteryType,@Param("lottery")LotteryHF lottery);
 
 
     @Insert({
             "<script>" +
-                    "insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime) values " +
+                    "insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime,sum) values " +
                     "<foreach item='list' index='key' collection='list' separator=','>" +
-                    "(#{list.planNo},#{list.lotteryNo},#{list.resultNum},#{list.officialOpenTime},#{list.nextOfficialOpenTime},#{list.stopOrderTime})" +
+                    "(#{list.planNo},#{list.lotteryNo},#{list.resultNum},#{list.officialOpenTime},#{list.nextOfficialOpenTime},#{list.stopOrderTime},#{list.sum})" +
                     " </foreach>"+
                     "</script>"
     })
-    void InsertBatchOObject(@Param("lotteryType") String lotteryType, @Param("list") List<LotteryHF> list);
+    void InsertBatchObject(@Param("lotteryType") String lotteryType,@Param("list")List<LotteryHF> list);
 
     /**
      * 获取当前日期所有的期号
@@ -59,4 +59,5 @@ public interface LotteryHFMapper {
 
     @Select("select lotteryNo,resultNum,officialOpenTime from t_lottery_hf_${lotteryType} order by lotteryNo desc limit  ${page} ,${pageSize} ")
     List<LotteryHF> findHistoryOpenResult(@Param("lotteryType") String lotteryType,@Param("page") Integer page,@Param("pageSize") Integer pageSize);
+
 }

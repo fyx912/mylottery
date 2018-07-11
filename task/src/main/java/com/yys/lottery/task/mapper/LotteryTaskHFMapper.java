@@ -1,11 +1,11 @@
 package com.yys.lottery.task.mapper;
 
-import com.yys.lottery.task.domain.LotteryHF;
+import com.yys.lottery.core.domain.LotteryHF;
 import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface LotteryHFMapper {
+public interface LotteryTaskHFMapper {
 
     @Select("SELECT MAX(planNo) FROM t_lottery_hf_${lotteryType}")
     Integer getMaxPlanNo(@Param("lotteryType") String lotteryType);

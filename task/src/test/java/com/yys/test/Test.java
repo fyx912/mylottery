@@ -2,15 +2,17 @@ package com.yys.test;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yys.lottery.core.dao.mapper.LotteryListMapper;
+import com.yys.lottery.task.common.CommonURL;
 import com.yys.lottery.task.common.HttpClientUtils;
 import com.yys.lottery.task.common.LotteryTypeEnums;
 import com.yys.lottery.task.data.LotteryCQSSCData;
-import com.yys.lottery.task.domain.LotteryHF;
-import com.yys.lottery.task.domain.LotteryList;
-import com.yys.lottery.task.mapper.LotteryHFMapper;
-import com.yys.lottery.task.mapper.LotteryListMapper;
+import com.yys.lottery.task.data.LotteryHFData;
+import com.yys.lottery.core.domain.LotteryHF;
+import com.yys.lottery.core.domain.LotteryList;
 import com.yys.lottery.task.TaskMain;
-import com.yys.lottery.task.service.LotteryHFService;
+import com.yys.lottery.task.mapper.LotteryTaskHFMapper;
+import com.yys.lottery.task.service.LotteryHFTaskService;
 import com.yys.lottery.task.service.LotteryHF_SSCService;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +28,16 @@ public class Test {
     private LotteryListMapper mapper;
 
     @Autowired
-    private LotteryHFMapper sscMapper;
+    private LotteryTaskHFMapper sscMapper;
 
     @Autowired
     private LotteryHF_SSCService sscService;
 
     @Autowired
-    private LotteryHFService hfService;
+    private LotteryHFTaskService hfService;
+
+   @Autowired
+   private CommonURL commonURL;
 
     @org.junit.Test
     public void getLotteryList(){
@@ -45,7 +50,7 @@ public class Test {
     @org.junit.Test
     public void insetSSC(){
         LotteryCQSSCData cqsscTask = new LotteryCQSSCData();
-        List<LotteryHF> list = cqsscTask.getCQSSCData();
+        List<LotteryHF> list = cqsscTask.getCQSSCData(commonURL.getHf_url());
 //        sscMapper.InsertObject("cqssc",list.get(0));
         sscMapper.InsertBatchObject("cqssc",list);
     }
@@ -61,6 +66,12 @@ public class Test {
 //        sscService.saveLotteryData(LotteryTypeEnums.HF_CQSSC.getName());
         hfService.saveLotteryData();
 
+    }
+    @org.junit.Test
+    public void  test(){
+        LotteryHFData hfData = new LotteryHFData();
+        System.out.println(commonURL.getHf_url());
+        System.out.println(hfData.getLotteryHFLastDate(commonURL.getHf_url()));
     }
 
 

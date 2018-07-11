@@ -5,6 +5,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -57,7 +58,7 @@ public class HttpClientUtils {
      * @param uri example "https://www.baidu.com/"
      * @return
      */
-    public static String postMethod(String uri){
+    public static String postMethod(String uri,String json){
         String result = null;
         CloseableHttpClient httpClient=HttpClients.createDefault();
         try {
@@ -65,7 +66,15 @@ public class HttpClientUtils {
             RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000)
                     .setConnectionRequestTimeout(1000).setSocketTimeout(3000).build();
             httpPost.setConfig(requestConfig);
-            System.out.println("executing request:" + httpPost.getURI());
+            if (json!=null){
+                StringEntity stringEntity = new StringEntity(json,"UTF-8");
+                stringEntity.setContentEncoding("UTF-8");
+                stringEntity.setContentType("application/json");
+                httpPost.setEntity(stringEntity);
+            }
+//            System.out.println("executing request:" + httpPost.getURI());
+
+
             CloseableHttpResponse response = httpClient.execute(httpPost);
             int code = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();

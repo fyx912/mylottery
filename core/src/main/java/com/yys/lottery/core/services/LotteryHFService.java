@@ -13,13 +13,9 @@ import java.util.List;
 
 @Service
 public class LotteryHFService {
-    private Logger logger = LoggerFactory.getLogger(LotteryHFService.class);
 
     @Autowired
-    private LotteryHFMapper sscMapper;
-    @Autowired
-    private LotteryListService listService;
-
+    private LotteryHFMapper lotteryHFMapper;
 
     /**
      * 获取最大planNo，当编号为null 则设置默认为1
@@ -27,7 +23,7 @@ public class LotteryHFService {
      * @return
      */
     public Integer getMaxPlanNo(String lotteryType){
-        Integer planNo = sscMapper.getMaxPlanNo(lotteryType);
+        Integer planNo = lotteryHFMapper.getMaxPlanNo(lotteryType);
         if (planNo!=null){
             return planNo;
         }
@@ -42,7 +38,7 @@ public class LotteryHFService {
     public boolean existsLotteryNo(String lotteryType ,String lotteryNo){
         boolean flag = false;
         if (StringUtils.isNotEmpty(lotteryType)&&StringUtils.isNotEmpty(lotteryNo)){
-            LotteryHF lotteryHF = sscMapper.findOneObject(lotteryType,lotteryNo);
+            LotteryHF lotteryHF = lotteryHFMapper.findOneObject(lotteryType,lotteryNo);
             if (lotteryHF!=null){
                 flag = true;
             }
@@ -54,7 +50,7 @@ public class LotteryHFService {
         if (0>pageSize&&pageSize>100){
             pageSize = 30;
         }
-      return sscMapper.findAll(lotteryType,page,pageSize);
+      return lotteryHFMapper.findAll(lotteryType,page,pageSize);
     }
 
     /**
@@ -68,7 +64,7 @@ public class LotteryHFService {
         if (0>pageSize&&pageSize>100){
             pageSize = 30;
         }
-        return  sscMapper.findHistoryLotteryNoAndResultData(lotteryType,page,pageSize);
+        return  lotteryHFMapper.findHistoryLotteryNoAndResultData(lotteryType,page,pageSize);
     }
 
     /**
@@ -77,7 +73,7 @@ public class LotteryHFService {
      * @return
      */
     public LotteryHF findLatestData(String lotteryType){
-       return sscMapper.findLatestData(lotteryType);
+       return lotteryHFMapper.findLatestData(lotteryType);
     }
 
     /**
@@ -87,7 +83,7 @@ public class LotteryHFService {
      * @return
      */
     public List<LotteryHF> findLotteryByDate(String lotteryType,String date){
-        return sscMapper.findLotteryByDate(lotteryType,date);
+        return lotteryHFMapper.findLotteryByDate(lotteryType,date);
     }
 
     /**
@@ -95,7 +91,7 @@ public class LotteryHFService {
      * @return
      */
     public Integer resultNumLength(String lotteryType){
-        String result = sscMapper.findResultNum(lotteryType);
+        String result = lotteryHFMapper.findResultNum(lotteryType);
         if (result!=null&&result.length()>2){
             return result.split(",").length;
         }else {
@@ -108,7 +104,7 @@ public class LotteryHFService {
      * @return
      */
     public List<LotteryHF> historyOpenResult(String type,Integer page,Integer pageSize){
-        List<LotteryHF> hfList = sscMapper.findHistoryOpenResult(type,page,pageSize);
+        List<LotteryHF> hfList = lotteryHFMapper.findHistoryOpenResult(type,page,pageSize);
         return  hfList;
     }
 }

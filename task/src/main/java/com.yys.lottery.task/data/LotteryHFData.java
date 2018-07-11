@@ -5,13 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.yys.lottery.task.common.DateTimeFormat;
 import com.yys.lottery.task.common.HttpClientUtils;
 import com.yys.lottery.task.common.LotteryTypeEnums;
-import com.yys.lottery.task.domain.LotteryHF;
+import com.yys.lottery.core.domain.LotteryHF;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,14 +21,14 @@ import java.util.List;
 public class LotteryHFData {
     private Logger logger = LoggerFactory.getLogger(LotteryHFData.class);
 
-    @Value("${lottery.HF_url}")
-    private String hf_url="https://1233caipiao.com/api/v1";
+//    @Value("${lottery.hf_url}")
+//    private String hf_url="https://1233caipiao.com/api/v1";
 
     /**
      * 获取高频彩票最新的数据
      * @return
      */
-    public List<LotteryHF> getLotteryHFLastDate(){
+    public List<LotteryHF> getLotteryHFLastDate(String hf_url){
         String url = hf_url;
         String lastResultsUrl = url+"/result/service/mobile/results/lastOpen";
         String result =  HttpClientUtils.getMethod(lastResultsUrl);
@@ -133,7 +130,7 @@ public class LotteryHFData {
      * @param type  彩票类型
      * @return
      */
-    public List<LotteryHF> getLotteryData(String type){
+    public List<LotteryHF> getLotteryData(String type,String hf_url){
         String url = hf_url;
         String resultsUrl = url+"/result/service/mobile/results/hist/"+type+"?limit=100";
         String result =  HttpClientUtils.getMethod(resultsUrl);

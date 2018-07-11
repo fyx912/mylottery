@@ -2,10 +2,11 @@ package com.yys.lottery.task.data;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yys.lottery.task.common.CommonURL;
 import com.yys.lottery.task.common.DateTimeFormat;
 import com.yys.lottery.task.common.HttpClientUtils;
 import com.yys.lottery.task.common.LotteryTypeEnums;
-import com.yys.lottery.task.domain.LotteryHF;
+import com.yys.lottery.core.domain.LotteryHF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,11 @@ import java.util.List;
 public class LotteryCQSSCData {
     private Logger logger = LoggerFactory.getLogger(LotteryCQSSCData.class);
 
-    @Value("${lottery.HF_url}")
-    private String hf_url="https://1233caipiao.com/api/v1";
-
     /**
      * 获取当天100条数据
      * @return
      */
-    public List<LotteryHF> getCQSSCData(){
+    public List<LotteryHF> getCQSSCData(String hf_url){
         String url = hf_url;
         String cqsscResultsUrl = url+"/result/service/mobile/results/hist/HF_CQSSC?limit=50";
         String result =  HttpClientUtils.getMethod(cqsscResultsUrl);
@@ -66,9 +64,9 @@ public class LotteryCQSSCData {
      * 获取重庆时时彩最新的数据
      * @return
      */
-    public LotteryHF getObject(){
+    public LotteryHF getObject(String hf_url){
         String url = hf_url;
-        String lastResultsUrl = hf_url+"/result/service/mobile/results/lastOpen";
+        String lastResultsUrl = url+"/result/service/mobile/results/lastOpen";
         String result =  HttpClientUtils.getMethod(lastResultsUrl);
         logger.info("最新的重庆时时彩接口:[{}],data:[{}]",lastResultsUrl,result);
         JSONArray jsonArray =  JSONArray.parseArray(result);

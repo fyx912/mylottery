@@ -1,7 +1,7 @@
 package com.yys.lottery.task;
 
 import com.yys.lottery.task.common.DateTimeFormat;
-import com.yys.lottery.task.service.LotteryHFService;
+import com.yys.lottery.task.service.LotteryHFTaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Order(value = 1)
 public class TaskApplicationRunner implements ApplicationRunner {
     @Autowired
-    private LotteryHFService service;
+    private LotteryHFTaskService service;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
