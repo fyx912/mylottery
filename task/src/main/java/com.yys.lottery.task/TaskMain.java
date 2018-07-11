@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.SpringServletContainerInitializer;
 
 @EnableCaching
@@ -19,6 +20,7 @@ import org.springframework.web.SpringServletContainerInitializer;
 @MapperScan({"com.yys.lottery.*","com.yys.lottery.task.mapper.*","com.yys.lottery.core.dao.mapper.*"})
 @ComponentScan(basePackages = {"com.yys.*"})
 @EnableScheduling
+@EnableTransactionManagement
 @SpringBootApplication
 public class TaskMain extends SpringBootServletInitializer {
 

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +59,7 @@ public class LotteryHFTaskService {
     /**
      * 保存所有高频彩票开奖数据
      */
+    @Transactional
     public void saveLotteryData(){
         List<LotteryHF> lotteryData = new LotteryHFData().getLotteryHFLastDate(commonURL.getHf_url());
         if (lotteryData!=null){
@@ -84,6 +86,7 @@ public class LotteryHFTaskService {
      * 批量插入高频彩票数据
      * @param lotteryType 彩票类型
      */
+    @Transactional
     public void  saveBatchAllLotteryData(String lotteryType){
         if (lotteryType==null){
             lotteryType ="cqssc";
