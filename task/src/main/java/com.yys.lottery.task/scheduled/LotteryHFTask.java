@@ -28,7 +28,7 @@ public class LotteryHFTask {
     }
 
 //    @Scheduled(cron = "0 0 4 1/1 * ? ")//每天4点运行一次
-    @Scheduled(cron = "0 0 1/2 * * ? ")//每天2h运行一次
+    @Scheduled(cron = "0 0 1/1 * * ? ")//每天1h运行一次
 //    @Scheduled(fixedRate = 60000)//1分钟运行一次
     public void saveBatchLotteryTask() throws InterruptedException {
         logger.info("一天运行一次.....运行时间[{}].",new Date());
@@ -36,7 +36,7 @@ public class LotteryHFTask {
                 "HF_LF28","HF_BJ28","HF_BJK3","HF_LFK3","HF_FFK3","HF_TJSSC"};
         for (int i = 0; i < type.length; i++) {
             hfService.saveBatchAllLotteryData(type[i]);
-            Thread.sleep(60000);
+            Thread.sleep(1000);
         }
     }
 }

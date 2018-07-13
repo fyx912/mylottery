@@ -117,7 +117,7 @@ public class LotteryHFData {
                     lottery.setNextOfficialOpenTime(DateTimeFormat.forMatDate(jsonObject.getDate("nextOfficialOpenTime")));
                     lottery.setStopOrderTime(DateTimeFormat.forMatDate(jsonObject.getDate("nextStopOrderTime")));
                     list.add(lottery);
-                    logger.info("获取最新的[{}]数据:[{}]",lottery.getLotteryName(),JSONObject.toJSON(list));
+                    logger.info("获取最新的[{}]数据:[{}]",lottery.getLotteryName(),JSONObject.toJSON(lottery));
                 }
             }
             return  list;

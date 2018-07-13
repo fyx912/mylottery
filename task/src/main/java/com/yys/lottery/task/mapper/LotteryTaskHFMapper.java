@@ -10,7 +10,7 @@ public interface LotteryTaskHFMapper {
     @Select("SELECT MAX(planNo) FROM t_lottery_hf_${lotteryType}")
     Integer getMaxPlanNo(@Param("lotteryType") String lotteryType);
 
-    @Insert("insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime,sum) " +
+    @Insert("insert IGNORE into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime,sum) " +
             "values(#{lottery.planNo},#{lottery.lotteryNo},#{lottery.resultNum},#{lottery.officialOpenTime},#{lottery.nextOfficialOpenTime},#{lottery.stopOrderTime},#{lottery.sum})")
     @Options(useGeneratedKeys = true,keyProperty = "lottery.id",keyColumn = "id")
     Integer InsertObject(@Param("lotteryType") String lotteryType,@Param("lottery")LotteryHF lottery);
@@ -18,7 +18,7 @@ public interface LotteryTaskHFMapper {
 
     @Insert({
             "<script>" +
-                    "insert into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime,sum) values " +
+                    "insert IGNORE into t_lottery_hf_${lotteryType} (planNo,lotteryNo,resultNum,officialOpenTime,nextOfficialOpenTime,stopOrderTime,sum) values " +
                     "<foreach item='list' index='key' collection='list' separator=','>" +
                     "(#{list.planNo},#{list.lotteryNo},#{list.resultNum},#{list.officialOpenTime},#{list.nextOfficialOpenTime},#{list.stopOrderTime},#{list.sum})" +
                     " </foreach>"+
