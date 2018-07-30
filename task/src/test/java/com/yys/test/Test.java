@@ -12,6 +12,7 @@ import com.yys.lottery.core.domain.LotteryHF;
 import com.yys.lottery.core.domain.LotteryList;
 import com.yys.lottery.task.TaskMain;
 import com.yys.lottery.task.mapper.LotteryTaskHFMapper;
+import com.yys.lottery.task.scheduled.LotteryHFTask;
 import com.yys.lottery.task.service.LotteryHFTaskService;
 import com.yys.lottery.task.service.LotteryHF_SSCService;
 import org.junit.runner.RunWith;
@@ -35,6 +36,9 @@ public class Test {
 
     @Autowired
     private LotteryHFTaskService hfService;
+
+    @Autowired
+    private LotteryHFTask lotteryHFTask;
 
    @Autowired
    private CommonURL commonURL;
@@ -72,6 +76,11 @@ public class Test {
         LotteryHFData hfData = new LotteryHFData();
         System.out.println(commonURL.getHf_url());
         System.out.println(hfData.getLotteryHFLastDate(commonURL.getHf_url()));
+    }
+
+    @org.junit.Test
+    public void lotteryHFTask() throws InterruptedException {
+        lotteryHFTask.saveBatchLotteryTask();
     }
 
 

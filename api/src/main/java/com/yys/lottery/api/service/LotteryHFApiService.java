@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,6 +23,8 @@ public class LotteryHFApiService {
     private LotteryHFService hfService;
     @Autowired
     private LotteryListService lotteryListService;
+    @Autowired
+    private LotteryMilesService lotteryMilesService;
 
     /**
      * 计算遗漏数据
@@ -32,9 +35,15 @@ public class LotteryHFApiService {
      * @return
      */
     public List<LotteryHF> lotteryTrendData(String lotteryType,int index,int page,int pageSize){
-      List<LotteryHF>  hfList = trendService.getTrendData(lotteryType,page,pageSize);
-      List<LotteryHF>  trendList = trendDataDispose(index,hfList);
-      return trendList;
+        List<LotteryHF>  hfList ;
+        String[] milesLotteryType = {"ffssc","lfssc","lfpk10","ffpk10"};
+        if (Arrays.asList(milesLotteryType).contains(lotteryType)){
+            hfList = lotteryMilesService.getTrendData(lotteryType,page,pageSize);
+        }else {
+            hfList = trendService.getTrendData(lotteryType,page,pageSize);
+        }
+        List<LotteryHF>  trendList = trendDataDispose(index,hfList);//计算处理之后的数据
+        return trendList;
     }
 
     /**
@@ -47,7 +56,7 @@ public class LotteryHFApiService {
      */
 //    @Cacheable(value = "LotteryHFApiService.lotteryBaseTrend",key = "#lotteryType")
     public LotteryTrend  lotteryBaseTrend(String lotteryType,int index,int page,int pageSize){
-        List<LotteryHF> hfList = lotteryTrendData(lotteryType,index,page,pageSize);
+        List<LotteryHF> hfList = lotteryTrendData(lotteryType,index,page,pageSize);//计算遗漏数据
         List<Integer> maxList = new ArrayList<>();
         List<Integer> avgList = new ArrayList<>();
         List<Integer> countList = new ArrayList<>();
@@ -103,7 +112,17 @@ public class LotteryHFApiService {
                 hfLottery.setLotteryNo(hfList.get(i).getLotteryNo());
 //                String subStringNum = subStringNum(lotteryType,index,hfList.get(i).getResultNum());
 //                hfLottery.setResultNum(subStringNum);
-                String num = hfList.get(i).getResultNum();
+                String num =null;
+                if (hfList.get(i).getResultNum()!=null){
+                     num = hfList.get(i).getResultNum();
+                }else {
+                    String[] resultNumArray =  hfList.get(i).getResultNum().split(",");
+                    int resultSum = 0;
+                    for (int j = 0; j < resultNumArray.length; j++) {
+                        resultSum += Integer.valueOf(resultNumArray[i]);
+                    }
+                    num = String.valueOf(resultSum);
+                }
                 hfLottery.setResultNum(num);
                 String[] result = num.split(",");
                 int resultSize = 10;

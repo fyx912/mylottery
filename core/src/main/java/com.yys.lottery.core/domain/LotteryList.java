@@ -11,6 +11,8 @@ public class LotteryList {
     private Timestamp dateTime;
     private String remarks;
 
+    public LotteryList() {
+    }
 
     public LotteryList(Integer id, String lotteryId, Integer lotteryTypeId, String lotteryName, String lotteryGroup, Timestamp dateTime, String remarks) {
         this.id = id;
