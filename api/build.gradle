@@ -25,7 +25,8 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}",
             "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}",
             "io.springfox:springfox-swagger2:${springfox}",
-            "io.springfox:springfox-swagger-ui:${springfox}"
+            "io.springfox:springfox-swagger-ui:${springfox}",
+            'com.alibaba:druid:1.1.9'
     )
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
