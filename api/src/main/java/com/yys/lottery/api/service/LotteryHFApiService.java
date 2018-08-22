@@ -50,8 +50,8 @@ public class LotteryHFApiService {
      */
     public List<LotteryHF> lotteryTrendData(String lotteryType,int index,int page,int pageSize){
         List<LotteryHF>  hfList ;
-        String[] milesLotteryType = {"ffssc","lfssc","lfpk10","ffpk10","k3","l10f"};
-        if (Arrays.asList(milesLotteryType).contains(lotteryType)||lotteryType.contentEquals("k3")||lotteryType.contentEquals("l10f")){
+        String[] milesLotteryType = {"ffssc","lfssc","lfpk10","ffpk10","k3","kl10f"};
+        if (Arrays.asList(milesLotteryType).contains(lotteryType)||lotteryType.contains("k3")||lotteryType.contains("kl10f")){
             hfList = lotteryMilesService.getTrendData(lotteryType,page,pageSize);
         }else {
             hfList = trendService.getTrendData(lotteryType,page,pageSize);
