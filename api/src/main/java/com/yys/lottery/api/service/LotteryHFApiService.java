@@ -27,6 +27,20 @@ public class LotteryHFApiService {
     private LotteryMilesService lotteryMilesService;
 
     /**
+     * 获取彩票类型的走势图长度
+     * resultSize 下标从0开始
+     * @param lotteryType 彩票种类
+     * @return
+     */
+    public int getTrendSize(String lotteryType){
+        int resultSize = 10;
+        if (lotteryType.endsWith("k3")){
+            resultSize = 7;
+        }
+        return  resultSize;
+    }
+
+    /**
      * 计算遗漏数据
      * @param lotteryType
      * @param index
@@ -36,13 +50,14 @@ public class LotteryHFApiService {
      */
     public List<LotteryHF> lotteryTrendData(String lotteryType,int index,int page,int pageSize){
         List<LotteryHF>  hfList ;
-        String[] milesLotteryType = {"ffssc","lfssc","lfpk10","ffpk10"};
-        if (Arrays.asList(milesLotteryType).contains(lotteryType)){
+        String[] milesLotteryType = {"ffssc","lfssc","lfpk10","ffpk10","k3","l10f"};
+        if (Arrays.asList(milesLotteryType).contains(lotteryType)||lotteryType.contentEquals("k3")||lotteryType.contentEquals("l10f")){
             hfList = lotteryMilesService.getTrendData(lotteryType,page,pageSize);
         }else {
             hfList = trendService.getTrendData(lotteryType,page,pageSize);
         }
-        List<LotteryHF>  trendList = trendDataDispose(index,hfList);//计算处理之后的数据
+        int resultSize = getTrendSize(lotteryType);
+        List<LotteryHF>  trendList = trendDataDispose(index,hfList,resultSize);//计算处理之后的数据
         return trendList;
     }
 
@@ -63,11 +78,14 @@ public class LotteryHFApiService {
         List<Integer> maxContinuousList = new ArrayList<>();
         LotteryTrend trend = new LotteryTrend();
         int resultSize = 10;
-        if (lotteryType.equals(LotteryTypeEnums.HF_FFK3.getName())||
-                lotteryType.equals(LotteryTypeEnums.HF_BJK3.getName())||
-                lotteryType.equals(LotteryTypeEnums.HF_LFK3.getName())){
-            resultSize = 3;
-        }
+//        if (lotteryType.equals(LotteryTypeEnums.HF_FFK3.getName())||
+//                lotteryType.equals(LotteryTypeEnums.HF_BJK3.getName())||
+//                lotteryType.equals(LotteryTypeEnums.HF_LFK3.getName())){
+//            resultSize = 3;
+//        }else if (lotteryType.endsWith("k3")){
+//            resultSize = 5;
+//        }
+        resultSize = getTrendSize(lotteryType);
         for (int j = 0; j < resultSize; j++) {
             List<Integer> list = new ArrayList<>();
             List<Integer> sumList = new ArrayList<>();
@@ -101,9 +119,10 @@ public class LotteryHFApiService {
      * @param lotteryType
      * @param index
      * @param hfList
+     * @param resultSize 数据结果的结果长度大小
      * @return
      */
-    public List<LotteryHF>  trendDataDispose(int index,List<LotteryHF>  hfList){
+    public List<LotteryHF>  trendDataDispose(int index,List<LotteryHF>  hfList,int resultSize ){
         if (hfList!=null){
             LotteryHF hfLottery = null;
             List<LotteryHF> resultList = new ArrayList<>();
@@ -125,7 +144,7 @@ public class LotteryHFApiService {
                 }
                 hfLottery.setResultNum(num);
                 String[] result = num.split(",");
-                int resultSize = 10;
+//                int resultSize = 10;
                 Integer indexData = Integer.valueOf(result[index]);
                 hfLottery.setSum(indexData.toString());
                 if(i==0){
