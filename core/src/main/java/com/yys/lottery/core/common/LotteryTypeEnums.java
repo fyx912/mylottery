@@ -81,6 +81,9 @@ public enum LotteryTypeEnums {
 
     GDKL10F("HF_GDKL10F","gdkl10f"),//广东快乐十分
     CQKL10F("HF_CQKL10F","cqkl10f"),//重庆快乐十分
+    HNKL10F("HF_HNKL10F","hnkl10f"),//湖南快乐十分
+    TJKL10F("HF_TJKL10F","tjkl10f"),//天津快乐十分
+    YNKL10F("HF_YNKL10F","ynkl10f"),//云南快乐十分
     SHSSL("HF_SHSSL","shssl"),//上海时时乐
     LFKLPK("HF_LFKLPK","lfklpk"),//幸运扑克
     XYFT("HF_XYFT","xyft"),//幸运飞艇

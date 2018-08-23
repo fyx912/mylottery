@@ -14,4 +14,6 @@ public interface MilesMapper {
             "FROM ${lotteryType} where openCodeAll is not null order by issueNum desc limit ${page},${pageSize}")
     List<LotteryHF> findMilesLotterTrendData(@Param("lotteryType") String lotteryType, @Param("page") int page, @Param("pageSize") int pageSize);
 
+    @Select("select openCodeAll as resultNum  from ${lotteryType} limit 1")
+    String findResultNum(@Param("lotteryType") String lotteryType);
 }

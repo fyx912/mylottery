@@ -58,7 +58,7 @@ public class LotteryHFController {
         boolean flag =typeService.typeExists(type);
         String result;
         if(flag){
-            Integer length = hfService.resultNumLength(type);
+            Integer length = apiService.resultNumLength(type);
             if (index<=length-1){
                 LotteryTrend trend = apiService.lotteryBaseTrend(type,index,page,pageSize);
                 JSONObject json = CodeJson.successJsonObject(trend);

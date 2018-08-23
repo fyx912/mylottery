@@ -1,5 +1,6 @@
 package com.yys.lottery.api.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yys.lottery.core.common.LotteryTypeEnums;
 import org.apache.commons.lang.ArrayUtils;
 
@@ -77,9 +78,11 @@ public class LotteryTrendUtil {
             int total = 0;
             boolean falg = false;
             for (int i = 1; i < list.size(); i++) {
-                if (list.get(i)<list.get(i-1)){
-                    total += list.get(i-1);
-                       falg = true;
+                if (list.get(i)!=null&&list.get(i-1)!=null){
+                    if (list.get(i)<list.get(i-1)){
+                        total += list.get(i-1);
+                        falg = true;
+                    }
                 }
             }
             if (falg==true){

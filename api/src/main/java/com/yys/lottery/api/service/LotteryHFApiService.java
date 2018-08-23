@@ -36,6 +36,22 @@ public class LotteryHFApiService {
         int resultSize = 10;
         if (lotteryType.endsWith("k3")){
             resultSize = 7;
+        }else if (lotteryType.endsWith("kl10f")){
+            resultSize = 9;
+        }
+        return  resultSize;
+    }
+
+    /**
+     * 获取结果
+     * resultSize 下标从0开始
+     * @param lotteryType 彩票种类
+     * @return
+     */
+    public int getTrendInitSize(String lotteryType){
+        int resultSize = 0;
+        if (lotteryType.contains("k3")){
+            resultSize = 1;
         }
         return  resultSize;
     }
@@ -51,13 +67,14 @@ public class LotteryHFApiService {
     public List<LotteryHF> lotteryTrendData(String lotteryType,int index,int page,int pageSize){
         List<LotteryHF>  hfList ;
         String[] milesLotteryType = {"ffssc","lfssc","lfpk10","ffpk10","k3","kl10f"};
-        if (Arrays.asList(milesLotteryType).contains(lotteryType)||lotteryType.contains("k3")||lotteryType.contains("kl10f")){
+        if (Arrays.asList(milesLotteryType).contains(lotteryType)||lotteryType.endsWith("k3")||lotteryType.endsWith("kl10f")){
             hfList = lotteryMilesService.getTrendData(lotteryType,page,pageSize);
         }else {
             hfList = trendService.getTrendData(lotteryType,page,pageSize);
         }
         int resultSize = getTrendSize(lotteryType);
-        List<LotteryHF>  trendList = trendDataDispose(index,hfList,resultSize);//计算处理之后的数据
+        int initSize = getTrendInitSize(lotteryType);
+        List<LotteryHF>  trendList = trendDataDispose(index,hfList,resultSize,initSize);//计算处理之后的数据
         return trendList;
     }
 
@@ -86,6 +103,7 @@ public class LotteryHFApiService {
 //            resultSize = 5;
 //        }
         resultSize = getTrendSize(lotteryType);
+        int initSize = getTrendInitSize(lotteryType);
         for (int j = 0; j < resultSize; j++) {
             List<Integer> list = new ArrayList<>();
             List<Integer> sumList = new ArrayList<>();
@@ -98,13 +116,15 @@ public class LotteryHFApiService {
             }
             Integer countValue = LotteryTrendUtil.countOmitValue(sumList,j);
             countList.add(countValue);
-            Integer resultValue = Integer.valueOf(hfList.get(j).getSum());
-            Integer avgValue = LotteryTrendUtil.averageOmitValue(resultValue,list);
-            avgList.add(avgValue);
-            Integer maxOmitValue = LotteryTrendUtil.maxOmitValue(list);
-            maxList.add(maxOmitValue);
-            Integer  maxContinuousValue = LotteryTrendUtil.maxContinuousValue(sumList,list);
-            maxContinuousList.add(maxContinuousValue);
+            if (list!=null&&list.size()>0){
+                Integer resultValue = Integer.valueOf(hfList.get(j).getSum());
+                Integer avgValue = LotteryTrendUtil.averageOmitValue(resultValue,list);
+                avgList.add(avgValue);
+                Integer maxOmitValue = LotteryTrendUtil.maxOmitValue(list);
+                maxList.add(maxOmitValue);
+                Integer  maxContinuousValue = LotteryTrendUtil.maxContinuousValue(sumList,list);
+                maxContinuousList.add(maxContinuousValue);
+            }
         }
         trend.setLotteryHF(hfList);
         trend.setMaxOmit(maxList);
@@ -119,10 +139,10 @@ public class LotteryHFApiService {
      * @param lotteryType
      * @param index
      * @param hfList
-     * @param resultSize 数据结果的结果长度大小
+     * @param initSize 初始化数据，判断需要的数据从0还是1开始
      * @return
      */
-    public List<LotteryHF>  trendDataDispose(int index,List<LotteryHF>  hfList,int resultSize ){
+    public List<LotteryHF>  trendDataDispose(int index,List<LotteryHF>  hfList,int resultSize ,int initSize){
         if (hfList!=null){
             LotteryHF hfLottery = null;
             List<LotteryHF> resultList = new ArrayList<>();
@@ -172,6 +192,21 @@ public class LotteryHFApiService {
                 }
                 resultList.add(hfLottery);
             }
+//            if (initSize==1){
+//                List<LotteryHF> list = new ArrayList<>();
+//                LotteryHF lottery ;
+//                for (int i = 0; i <resultList.size() ; i++) {
+//                    lottery = resultList.get(i);
+//                    Integer[] data = resultList.get(i).getResult();
+//                    Integer[] resultParse = new Integer[data.length-1];
+//                    if (i+1<data.length){
+//                        resultParse[i] = data[i+1];
+//                    }
+//                    lottery.setResult(resultParse);
+//                    list.add(lottery);
+//                }
+//                return  list;
+//            }
             return  resultList;
         }
         return null;
@@ -248,6 +283,21 @@ public class LotteryHFApiService {
             }
         }
         return  lotteryHFList;
+    }
+
+    /**
+     * @describe 获取开奖结果的
+     * @return
+     */
+    public Integer resultNumLength(String lotteryType){
+        Integer result=0;
+        String[] milesLotteryType = {"ffssc","lfssc","lfpk10","ffpk10","k3","kl10f"};
+        if (Arrays.asList(milesLotteryType).contains(lotteryType)||lotteryType.endsWith("k3")||lotteryType.endsWith("kl10f")){
+            result = lotteryMilesService.resultNumLength(lotteryType);
+        }else {
+            result = hfService.resultNumLength(lotteryType);
+        }
+        return  result;
     }
 
 }
